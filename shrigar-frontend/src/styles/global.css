@@ -1,0 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Playfair Display", "Georgia", serif;
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
