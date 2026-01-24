@@ -1,0 +1,34 @@
+/* ===============================
+   UTILITY HEADER
+================================ */
+.utility-header {
+  background: #ffffff;
+  border-bottom: 1px solid #eee;
+}
+
+.utility-links {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  gap: 30px;
+  font-size: 13px;
+}
+
+.utility-links a {
+  color: #222;
+  text-decoration: none;
+}
+
+.utility-links a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .utility-links {
+    justify-content: center;
+    gap: 16px;
+    font-size: 12px;
+  }
+}

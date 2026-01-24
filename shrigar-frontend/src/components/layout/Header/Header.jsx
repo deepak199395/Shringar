@@ -6,15 +6,16 @@ import logo from "../../../assets/images/logo.jpeg";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <header className="header">
-
       {/* Logo */}
-      <Link to="/" className="logo">
+      <Link to="/" className="logo" onClick={closeMenu}>
         <img src={logo} alt="Shrigar Luxury Intimate Jewellery" />
       </Link>
 
-      {/* Desktop Nav */}
+      {/* Desktop Navigation */}
       <nav className="nav desktop-nav">
         <Link to="/">Home</Link>
         <Link to="/shop">Shop</Link>
@@ -23,23 +24,23 @@ const Header = () => {
       </nav>
 
       {/* Hamburger */}
-      <div
+      <button
         className={`hamburger ${menuOpen ? "open" : ""}`}
         onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Toggle menu"
       >
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+        <span />
+        <span />
+        <span />
+      </button>
 
-      {/* Mobile Menu */}
+      {/* Mobile Navigation */}
       <nav className={`mobile-nav ${menuOpen ? "show" : ""}`}>
-        <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
-        <Link to="/shop" onClick={() => setMenuOpen(false)}>Shop</Link>
-        <Link to="/cart" onClick={() => setMenuOpen(false)}>Cart</Link>
-        <Link to="/account" onClick={() => setMenuOpen(false)}>Account</Link>
+        <Link to="/" onClick={closeMenu}>Home</Link>
+        <Link to="/shop" onClick={closeMenu}>Shop</Link>
+        <Link to="/cart" onClick={closeMenu}>Cart</Link>
+        <Link to="/account" onClick={closeMenu}>Account</Link>
       </nav>
-
     </header>
   );
 };
