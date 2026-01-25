@@ -1,0 +1,49 @@
+/* ===============================
+   SECONDARY NAV BAR
+================================ */
+.secondary-nav {
+  background: #ffffff;
+  border-bottom: 1px solid #eee;
+}
+
+.secondary-nav-list {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+
+.secondary-nav-list a {
+  text-decoration: none;
+  font-size: 16px;
+  color: #000;
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+.secondary-nav-list a:hover {
+  color: #c9a24d;
+}
+
+/* ===============================
+   TABLET
+================================ */
+@media (max-width: 992px) {
+  .secondary-nav-list {
+    gap: 24px;
+    font-size: 14px;
+  }
+}
+
+/* ===============================
+   MOBILE (OPTIONAL HIDE)
+================================ */
+@media (max-width: 768px) {
+  .secondary-nav {
+    display: none; /* hide on mobile */
+  }
+}
