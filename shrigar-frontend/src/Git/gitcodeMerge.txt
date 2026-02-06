@@ -5,6 +5,10 @@ git push origin main
 
 
 
+git merge origin/main
+
+
+
 // branches
 devUatDeepak
 devUatMp
