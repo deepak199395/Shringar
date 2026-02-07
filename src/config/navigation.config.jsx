@@ -7,5 +7,5 @@ export const SECONDARY_NAV = [
   { label: "Boutiques", path: "/boutiques" },
   { label: "Spotted", path: "/spotted" },
   { label: "Gift Card", path: "/gift-card" },
-  { label: "About Us", path: "/about" }
+  // { label: "About Us", path: "/about" }
 ];
