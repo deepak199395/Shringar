@@ -5,7 +5,8 @@ import Header from './components/layout/Header/Header';
 import Footer from './components/layout/Footer/Footer';
 import LoginScreen from './store/auth/LoginScreen';
 import RegisterUserScreen from './store/auth/RegisterUserScreen';
-import ProdCollections from './pages/product/Collections/ProdCollections';
+import Collections from './pages/product/Collections/Collections';
+import CollectionProducts from './pages/product/Collections/CollectionProducts';
 const App = () => {
   return (
     <>
@@ -16,8 +17,9 @@ const App = () => {
       <Route path='/footer' element={<Footer/>}/>
       <Route path='/login' element={<LoginScreen/>}/>
       <Route path='/registeruser' element={<RegisterUserScreen/>}/>
-      <Route path='/ProdCollections' element={<ProdCollections/>}/>
-    </Routes>
+      <Route path='/ProdCollections' element={<Collections/>}/>
+      <Route path="/collection/:collectionId" element={<CollectionProducts />}/>
+      </Routes>
     </BrowserRouter>
     </>
   )
