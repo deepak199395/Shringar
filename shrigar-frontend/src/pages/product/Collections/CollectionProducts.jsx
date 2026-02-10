@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "../Collections/CollectionProducts.css";
@@ -6,94 +6,109 @@ import Header from "../../../components/layout/Header/Header";
 import Footer from "../../../components/layout/Footer/Footer";
 
 const CollectionProducts = () => {
-    const { collectionId } = useParams();
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(false);
+  const { collectionId } = useParams();
 
-    useEffect(() => {
-        if (collectionId) {
-            fetchProducts();
-            console.log("fetchProducts",fetchProducts)
-        }
-    }, [collectionId]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-    const fetchProducts = async () => {
-        try {
-            console.log("📌 Collection ID:", collectionId);
-            setLoading(true);
-            const res = await axios.get(
-                "https://devdeepak-backend-api-fbdhhyeddwbab9da.centralindia-01.azurewebsites.net/api/v1/shrigar/Collections/products/list/api56",{
-                    params:{collectionId}
-                }
-            )
-            if(res?.data?.success && res?.data?.flage === "Y"){
-                const filteredProducts=res.data.product.filter(
-                 (item) => item.collectionId === collectionId
+  // ✅ Fetch & filter products by collectionId
+  const fetchProducts = useCallback(async () => {
+    try {
+      setLoading(true);
 
-                );
-                setProducts(filteredProducts)
-            }else{
-                setProducts([])
-            }
-            }
+      const res = await axios.get(
+        "https://devdeepak-backend-api-fbdhhyeddwbab9da.centralindia-01.azurewebsites.net/api/v1/shrigar/Collections/products/list/api56"
+      );
 
-         catch (error) {
-            console.error("Failed to fetch products", error);
-            setProducts([]);
-        } finally {
-            setLoading(false);
-        }
-    };
-    console.log("api pri+++++++++++++++++",products)
-    if (loading) return <p className="status-text">Loading products...</p>;
+      if (res?.data?.success && res?.data?.flage === "Y") {
+        const filteredProducts = res.data.product.filter(
+          (item) => item.collectionId === collectionId
+        );
 
-    if (!products.length) return <p className="status-text">No products found.</p>;
+        setProducts(filteredProducts);
+      } else {
+        setProducts([]);
+      }
+    } catch (error) {
+      console.error("❌ Failed to fetch products:", error);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [collectionId]);
 
-    return (
-        <div className="collection-products-page">
-            <Header/>
-            <div className="product-grid">
-                {products.map((item) => {
-                    const finalPrice =
-                        item.priceAfterDiscount > 0
-                            ? item.priceAfterDiscount : item.originalPrice;
-                    return (
-                        <div className="product-card" key={item._id}>
-                            {/* IMAGE */}
-                            <div className="product-image">
-                                <img src={item.image} alt={item.productName} />
+  // ✅ Call API when collectionId changes
+  useEffect(() => {
+    if (collectionId) {
+      fetchProducts();
+    }
+  }, [collectionId, fetchProducts]);
 
-                                {!item.inStock && (
-                                    <span className="stock-badge">Out of Stock</span>
-                                )}
+  // ---------------- UI STATES ----------------
 
-                                {item.discountPercentage > 0 && (
-                                    <span className="discount-badge">
-                                        {item.discountPercentage}% OFF
-                                    </span>
-                                )}
-                            </div>
+  if (loading) {
+    return <p className="status-text">Loading products...</p>;
+  }
 
-                            {/* INFO */}
-                            <div className="product-info">
-                                <h4 className="product-title">{item.productName}</h4>
-                                <div className="product-price">
-                                    <span className="final-price">₹{finalPrice}</span>
+  if (!products.length) {
+    return <p className="status-text">No products found.</p>;
+  }
 
-                                    {item.discountPercentage > 0 && (
-                                        <span className="original-price">
-                                            ₹{item.originalPrice}
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    )
-                })}
+  // ---------------- RENDER ----------------
+
+  return (
+    <div className="collection-products-page">
+      <Header />
+
+      <div className="product-grid">
+        {products.map((item) => {
+          const finalPrice =
+            item.discountPercentage > 0
+              ? Math.round(
+                  item.originalPrice -
+                    (item.originalPrice * item.discountPercentage) / 100
+                )
+              : item.originalPrice;
+
+          return (
+            <div className="product-card" key={item._id}>
+              {/* IMAGE */}
+              <div className="product-image">
+                <img src={item.image} alt={item.productName} />
+
+                {!item.inStock && (
+                  <span className="stock-badge">Out of Stock</span>
+                )}
+
+                {item.discountPercentage > 0 && (
+                  <span className="discount-badge">
+                    {item.discountPercentage}% OFF
+                  </span>
+                )}
+              </div>
+
+              {/* INFO */}
+              <div className="product-info">
+                <h4 className="product-title">{item.productName}</h4>
+
+                <div className="product-price">
+                  <span className="final-price">₹{finalPrice}</span>
+
+                  {item.discountPercentage > 0 && (
+                    <span className="original-price">
+                      ₹{item.originalPrice}
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
-            <Footer/>
-        </div>
-    );
+          );
+        })}
+      </div>
+
+      <Footer />
+    </div>
+  );
 };
 
 export default CollectionProducts;
