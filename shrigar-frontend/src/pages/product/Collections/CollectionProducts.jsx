@@ -4,9 +4,11 @@ import { useParams } from "react-router-dom";
 import "../Collections/CollectionProducts.css";
 import Header from "../../../components/layout/Header/Header";
 import Footer from "../../../components/layout/Footer/Footer";
+import { useCart } from "../../../components/context/CartContext";
 
 const CollectionProducts = () => {
   const { collectionId } = useParams();
+  const { addToCart } = useCart();
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -17,12 +19,12 @@ const CollectionProducts = () => {
       setLoading(true);
 
       const res = await axios.get(
-        "https://devdeepak-backend-api-fbdhhyeddwbab9da.centralindia-01.azurewebsites.net/api/v1/shrigar/Collections/products/list/api56"
+        "https://devdeepak-backend-api-fbdhhyeddwbab9da.centralindia-01.azurewebsites.net/api/v1/shrigar/Collections/products/list/api56",
       );
 
       if (res?.data?.success && res?.data?.flage === "Y") {
         const filteredProducts = res.data.product.filter(
-          (item) => item.collectionId === collectionId
+          (item) => item.collectionId === collectionId,
         );
 
         setProducts(filteredProducts);
@@ -59,14 +61,13 @@ const CollectionProducts = () => {
   return (
     <div className="collection-products-page">
       <Header />
-
       <div className="product-grid">
         {products.map((item) => {
           const finalPrice =
             item.discountPercentage > 0
               ? Math.round(
                   item.originalPrice -
-                    (item.originalPrice * item.discountPercentage) / 100
+                    (item.originalPrice * item.discountPercentage) / 100,
                 )
               : item.originalPrice;
 
@@ -93,19 +94,24 @@ const CollectionProducts = () => {
 
                 <div className="product-price">
                   <span className="final-price">₹{finalPrice}</span>
-
                   {item.discountPercentage > 0 && (
                     <span className="original-price">
                       ₹{item.originalPrice}
                     </span>
                   )}
                 </div>
+
+                <button
+                  className="add-to-cart-btn"
+                  onClick={() => addToCart(item)}
+                >
+                  Add to Cart
+                </button>
               </div>
             </div>
           );
         })}
       </div>
-
       <Footer />
     </div>
   );

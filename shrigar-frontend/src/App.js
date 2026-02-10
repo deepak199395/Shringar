@@ -7,6 +7,7 @@ import LoginScreen from './store/auth/LoginScreen';
 import RegisterUserScreen from './store/auth/RegisterUserScreen';
 import Collections from './pages/product/Collections/Collections';
 import CollectionProducts from './pages/product/Collections/CollectionProducts';
+import Cart from './pages/cart/Cart';
 const App = () => {
   return (
     <>
@@ -19,6 +20,7 @@ const App = () => {
       <Route path='/registeruser' element={<RegisterUserScreen/>}/>
       <Route path='/ProdCollections' element={<Collections/>}/>
       <Route path="/collection/:collectionId" element={<CollectionProducts />}/>
+      <Route path='cart' element={<Cart/>}/>
       </Routes>
     </BrowserRouter>
     </>

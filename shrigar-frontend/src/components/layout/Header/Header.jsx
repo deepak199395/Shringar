@@ -2,11 +2,19 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./Header.css";
 import logo from "../../../assets/images/logo.jpeg";
+import { useCart } from "../../context/CartContext";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { cartItems } = useCart();
 
   const closeMenu = () => setMenuOpen(false);
+
+  // ✅ Total cart quantity
+  const cartCount = cartItems.reduce(
+    (total, item) => total + item.qty,
+    0
+  );
 
   return (
     <header className="header">
@@ -19,7 +27,15 @@ const Header = () => {
       <nav className="nav desktop-nav">
         <Link to="/">Home</Link>
         <Link to="/shop">Shop</Link>
-        <Link to="/cart">Cart</Link>
+
+        {/* Cart with count */}
+        <Link to="/cart" className="cart-link">
+          Cart
+          {cartCount > 0 && (
+            <span className="cart-count">{cartCount}</span>
+          )}
+        </Link>
+
         <Link to="/account">Account</Link>
       </nav>
 
@@ -29,16 +45,22 @@ const Header = () => {
         onClick={() => setMenuOpen(!menuOpen)}
         aria-label="Toggle menu"
       >
-        <span />
-        <span />
-        <span />
+        
       </button>
 
       {/* Mobile Navigation */}
       <nav className={`mobile-nav ${menuOpen ? "show" : ""}`}>
         <Link to="/" onClick={closeMenu}>Home</Link>
         <Link to="/shop" onClick={closeMenu}>Shop</Link>
-        <Link to="/cart" onClick={closeMenu}>Cart</Link>
+
+        {/* Cart with count (mobile) */}
+        <Link to="/cart" onClick={closeMenu} className="cart-link">
+          Cart
+          {cartCount > 0 && (
+            <span className="cart-count">{cartCount}</span>
+          )}
+        </Link>
+
         <Link to="/account" onClick={closeMenu}>Account</Link>
       </nav>
     </header>

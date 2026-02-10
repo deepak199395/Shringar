@@ -92,3 +92,47 @@
   color: #888;
   text-decoration: line-through;
 }
+.add-to-cart-btn {
+  margin-top: 6px;
+  width: 100%;
+  padding: 9px 0;
+  border: none;
+  border-radius: 6px;
+  background: #111;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.add-to-cart-btn:hover {
+  background: #000;
+  transform: translateY(-1px);
+}
+
+.add-to-cart-btn:active {
+  transform: scale(0.98);
+}
+
+.add-to-cart-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+.product-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.final-price {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+}
+
+.original-price {
+  font-size: 13px;
+  color: #888;
+  text-decoration: line-through;
+}
