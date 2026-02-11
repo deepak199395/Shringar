@@ -1,7 +1,8 @@
 import React from "react";
 import Header from "../../components/layout/Header/Header";
 import { useCart } from "../../components/context/CartContext";
-import "./Cart.css"
+import "./Cart.css";
+import { Link } from "react-router-dom";
 const Cart = () => {
   const { cartItems, removeFromCart, updateQty } = useCart();
 
@@ -13,7 +14,7 @@ const Cart = () => {
           ? item.originalPrice -
             (item.originalPrice * item.discountPercentage) / 100
           : item.originalPrice),
-    0
+    0,
   );
 
   if (!cartItems.length) {
@@ -52,12 +53,15 @@ const Cart = () => {
                 Remove
               </button>
             </div>
+             <Link to="/checkout">
+          <button className="checkout-btn">Proceed to Checkout</button>
+        </Link>
           </div>
         ))}
 
         <h3>Total: ₹{Math.round(totalAmount)}</h3>
+       
       </div>
-
     </>
   );
 };

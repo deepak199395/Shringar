@@ -11,10 +11,7 @@ const Header = () => {
   const closeMenu = () => setMenuOpen(false);
 
   // ✅ Total cart quantity
-  const cartCount = cartItems.reduce(
-    (total, item) => total + item.qty,
-    0
-  );
+  const cartCount = cartItems.reduce((total, item) => total + item.qty, 0);
 
   return (
     <header className="header">
@@ -30,10 +27,8 @@ const Header = () => {
 
         {/* Cart with count */}
         <Link to="/cart" className="cart-link">
-          Cart
-          {cartCount > 0 && (
-            <span className="cart-count">{cartCount}</span>
-          )}
+          <span className="cart-icon">🛒</span>
+          {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
         </Link>
 
         <Link to="/account">Account</Link>
@@ -44,24 +39,26 @@ const Header = () => {
         className={`hamburger ${menuOpen ? "open" : ""}`}
         onClick={() => setMenuOpen(!menuOpen)}
         aria-label="Toggle menu"
-      >
-        
-      </button>
+      ></button>
 
       {/* Mobile Navigation */}
       <nav className={`mobile-nav ${menuOpen ? "show" : ""}`}>
-        <Link to="/" onClick={closeMenu}>Home</Link>
-        <Link to="/shop" onClick={closeMenu}>Shop</Link>
-
-        {/* Cart with count (mobile) */}
-        <Link to="/cart" onClick={closeMenu} className="cart-link">
-          Cart
-          {cartCount > 0 && (
-            <span className="cart-count">{cartCount}</span>
-          )}
+        <Link to="/" onClick={closeMenu}>
+          Home
+        </Link>
+        <Link to="/shop" onClick={closeMenu}>
+          Shop
         </Link>
 
-        <Link to="/account" onClick={closeMenu}>Account</Link>
+        {/* Cart with count (mobile) */}
+        <Link to="/cart" className="cart-link">
+          <span className="cart-icon">🛒</span>
+          {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+        </Link>
+
+        <Link to="/account" onClick={closeMenu}>
+          Account
+        </Link>
       </nav>
     </header>
   );

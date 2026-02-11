@@ -19,7 +19,7 @@ const CollectionProducts = () => {
       setLoading(true);
 
       const res = await axios.get(
-        "https://devdeepak-backend-api-fbdhhyeddwbab9da.centralindia-01.azurewebsites.net/api/v1/shrigar/Collections/products/list/api56",
+        "https://api.shrigaar.com/api/v1/shrigar/Collections/products/list/api56",
       );
 
       if (res?.data?.success && res?.data?.flage === "Y") {

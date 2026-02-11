@@ -8,6 +8,7 @@ import RegisterUserScreen from './store/auth/RegisterUserScreen';
 import Collections from './pages/product/Collections/Collections';
 import CollectionProducts from './pages/product/Collections/CollectionProducts';
 import Cart from './pages/cart/Cart';
+import Checkout from './pages/Checkout/Checkout';
 const App = () => {
   return (
     <>
@@ -21,6 +22,7 @@ const App = () => {
       <Route path='/ProdCollections' element={<Collections/>}/>
       <Route path="/collection/:collectionId" element={<CollectionProducts />}/>
       <Route path='cart' element={<Cart/>}/>
+      <Route path='/checkout' element={<Checkout/>}/>
       </Routes>
     </BrowserRouter>
     </>
