@@ -1,1 +1,1 @@
-export const BASE_URL = "https://devdeepak-backend-api-fbdhhyeddwbab9da.centralindia-01.azurewebsites.net/api/v1";
+export const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/api/v1`;
