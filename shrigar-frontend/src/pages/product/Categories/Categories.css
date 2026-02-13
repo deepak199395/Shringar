@@ -1,6 +1,3 @@
-/* ===============================
-   CATEGORY SECTION
-================================ */
 .category-section {
   padding: 60px 40px;
   background: #ffffff;
@@ -14,19 +11,11 @@
   color: #000;
   font-weight: 500;
 }
-
-/* ===============================
-   GRID LAYOUT
-================================ */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
 }
-
-/* ===============================
-   CATEGORY CARD
-================================ */
 .category-card {
   text-align: center;
 }
