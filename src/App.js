@@ -6,8 +6,8 @@ import Footer from './components/layout/Footer/Footer';
 import LoginScreen from './store/auth/LoginScreen';
 import RegisterUserScreen from './store/auth/RegisterUserScreen';
 import ProdCollections from './pages/product/Collections/ProdCollections';
-
 import ContactPage from './pages/contact/ContactPage'
+import AboutUsPage from './pages/about-us/AboutUsPage';
 
 
 const App = () => {
@@ -17,6 +17,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/contact' element={<ContactPage />} />
+          <Route path='/about' element={<AboutUsPage />} />
           <Route path='/header' element={<Header />} />
           <Route path='/footer' element={<Footer />} />
           <Route path='/login' element={<LoginScreen />} />
