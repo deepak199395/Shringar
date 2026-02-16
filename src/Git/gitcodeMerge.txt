@@ -9,4 +9,3 @@ git push origin main
 devUatDeepak
 devUatMp
 * main
-devUatPragya
