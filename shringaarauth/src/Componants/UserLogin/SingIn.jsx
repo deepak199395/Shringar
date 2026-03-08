@@ -1,23 +1,49 @@
 import React, { useState } from "react";
 import "./SingIn.css";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate("/Auth-SignUp");
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setError("Both Email and Password are required.");
-      return;
-    }
+    try {
+      if (!Email || !Password) {
+        setError("Both Email and Password are required.");
+        return;
+      }
 
-    setError("");
-    console.log("Ready to call login API", { email, password });
-    // 🔐 You will integrate your API here
+      setError("");
+
+      console.log("Ready to call login API", { Email, Password });
+
+      const response = await axios.post(
+        "https://api.shrigaar.com/api/v1/shringar/User/login/api60",
+        {
+          Email: Email,
+          Password: Password,
+        }
+      );
+
+      if (response.status === 200) {
+        window.location.href = "https://shringaarprod.netlify.app/";
+      }
+
+    } catch (error) {
+      setError("Invalid email or password");
+      console.log(error);
+    }
   };
 
   return (
@@ -32,7 +58,7 @@ const SignIn = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              value={email}
+              value={Email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -43,9 +69,10 @@ const SignIn = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                value={password}
+                value={Password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+
               <span
                 className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
@@ -64,7 +91,9 @@ const SignIn = () => {
 
         <div className="login-footer">
           <span className="link">Forgot Password?</span>
-          <span className="link">Create Account</span>
+          <span className="link" onClick={handleNavigate}>
+            Create Account
+          </span>
         </div>
       </div>
     </div>

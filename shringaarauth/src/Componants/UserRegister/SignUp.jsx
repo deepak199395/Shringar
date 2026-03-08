@@ -1,155 +1,216 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./SignUp.css"
+import "./SignUp.css";
+
 const SignUp = () => {
-const [FullName,setFullName]=useState("")
-const [phoneNumber,setphoneNumber]=useState("")
-const [Email,setEmail]=useState("")
-const [Password,setPassword]=useState("")
-const [Dob,setDob]=useState("")
-const [age,setage]=useState("")
-const [Address,setAddress]=useState("")
-const [City,setCity]=useState("")
-const [Gender,setGender]=useState("")
-const [Pincode,setPincode]=useState("")
-const [Country,setCountry]=useState("")
-const [State,setState]=useState("")
+  //const [gender,setGender]=useState()
+  const [step, setStep] = useState(1);
+  const navigate = useNavigate();
 
-const handleLogin=async(e)=>{
-  e.preventDefault();
-  try {
-    const response = await axios.post("https://api.shrigaar.com/api/v1/shringar/User/registerUser/api55",
-      {
-        FullName,phoneNumber,Email,Password,Dob,age,Address,City,Gender,Pincode,Country,State
-      }
-    );
-      console.log("Success:", response.data);
+  const [formData, setFormData] = useState({
+    FullName: "",
+    phoneNumber: "",
+    Email: "",
+    Password: "",
+    Dob: "",
+    age: "",
+    Address: "",
+    City: "",
+    Gender: "",
+    Pincode: "",
+    Country: "",
+    State: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const nextStep = () => setStep(step + 1);
+  const prevStep = () => setStep(step - 1);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "https://api.shrigaar.com/api/v1/shringar/User/registerUser/api55",
+        formData,
+      );
+      navigate("/");
+
+      console.log(response.data);
       alert("User Registered Successfully");
-
-  } catch (error) {
-    console.log("Error:", error);
-    alert("Registration Failed");
-  }
-}
+    } catch (error) {
+      console.log(error);
+      alert("Registration Failed");
+    }
+  };
 
   return (
-   <>
-    <form onSubmit={handleLogin}>
-          <div className="input-group">
-            <label>FullName</label>
-            <input
-              type="text"
-              placeholder="Enter your email"
-              value={FullName}
-              onChange={(e) => setFullName(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <label>phoneNumber</label>
-            <input
-              type="number"
-              placeholder="Enter your email"
-              value={phoneNumber}
-              onChange={(e) => setphoneNumber(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <label>Email</label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={Email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <label>Password</label>
-            <input
-              type="password"
-              placeholder="Enter your email"
-              value={Password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <label>Dob</label>
-            <input
-              type="text"
-              placeholder="Enter your email"
-              value={Dob}
-              onChange={(e) => setDob(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <label>age</label>
-            <input
-              type="number"
-              placeholder="Enter your email"
-              value={age}
-              onChange={(e) => setage(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <label>Address</label>
-            <input
-              type="text"
-              placeholder="Enter your email"
-              value={Address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <label>City</label>
-            <input
-              type="text"
-              placeholder="Enter your email"
-              value={City}
-              onChange={(e) => setCity(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <label>Country</label>
-            <input
-              type="text"
-              placeholder="Enter your email"
-              value={Country}
-              onChange={(e) => setCountry(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <label>State</label>
-            <input
-              type="text"
-              placeholder="Enter your email"
-              value={State}
-              onChange={(e) => setState(e.target.value)}
-            />
-          </div>
-           <div className="input-group">
-            <label>Pincode</label>
-            <input
-              type="text"
-              placeholder="Enter your email"
-              value={Pincode}
-              onChange={(e) => setPincode(e.target.value)}
-            />
-          </div>
-           <div className="input-group">
-            <label>Gender</label>
-            <input
-              type="text"
-              placeholder="Enter your email"
-              value={Gender}
-              onChange={(e) => setGender(e.target.value)}
-            />
-          </div>
-          <button type="submit" className="login-btn">
-            Sign Up
-          </button>
+    <div className="signup-wrapper">
+      <div className="signup-card">
+        <h2>Create Account</h2>
+
+        <div className="step-indicator">Step {step} of 3</div>
+
+        <form onSubmit={handleSubmit}>
+          {/* STEP 1 */}
+          {step === 1 && (
+            <>
+              <div className="signup-group">
+                <label>Full Name</label>
+                <input
+                  name="FullName"
+                  value={formData.FullName}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="signup-group">
+                <label>Phone Number</label>
+                <input
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="signup-group">
+                <label>Email</label>
+                <input
+                  name="Email"
+                  value={formData.Email}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="signup-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  name="Password"
+                  value={formData.Password}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <button type="button" className="signup-btn" onClick={nextStep}>
+                Next
+              </button>
+            </>
+          )}
+
+          {/* STEP 2 */}
+          {step === 2 && (
+            <>
+              <div className="signup-group">
+                <label>Date of Birth</label>
+                <input
+                  name="Dob"
+                  value={formData.Dob}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="signup-group">
+                <label>Age</label>
+                <input
+                  name="age"
+                  value={formData.age}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="signup-group">
+                <label>Gender</label>
+                <select
+                  name="Gender"
+                  value={formData.Gender}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div className="btn-group">
+                <button type="button" onClick={prevStep}>
+                  Back
+                </button>
+                <button type="button" onClick={nextStep}>
+                  Next
+                </button>
+              </div>
+            </>
+          )}
+
+          {/* STEP 3 */}
+          {step === 3 && (
+            <>
+              <div className="signup-group">
+                <label>Address</label>
+                <input
+                  name="Address"
+                  value={formData.Address}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="signup-group">
+                <label>City</label>
+                <input
+                  name="City"
+                  value={formData.City}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="signup-group">
+                <label>State</label>
+                <input
+                  name="State"
+                  value={formData.State}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="signup-group">
+                <label>Country</label>
+                <input
+                  name="Country"
+                  value={formData.Country}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="signup-group">
+                <label>Pincode</label>
+                <input
+                  name="Pincode"
+                  value={formData.Pincode}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="btn-group">
+                <button type="button" onClick={prevStep}>
+                  Back
+                </button>
+                <button type="submit">Submit</button>
+              </div>
+            </>
+          )}
         </form>
+      </div>
+    </div>
+  );
+};
 
-   </>
-  )
-}
-
-export default SignUp
+export default SignUp;
