@@ -32,6 +32,8 @@ const Header = () => {
         </Link>
 
         <Link to="/account">Account</Link>
+        <Link to="/https://shringaarauth.netlify.app/">Login</Link>
+
       </nav>
 
       {/* Hamburger */}
@@ -59,6 +61,7 @@ const Header = () => {
         <Link to="/account" onClick={closeMenu}>
           Account
         </Link>
+        
       </nav>
     </header>
   );
