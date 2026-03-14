@@ -38,10 +38,10 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        "https://api.shrigaar.com/api/v1/shringar/User/registerUser/api55",
+        "https://api.shrigaar.com/api/v1/shringar/User/registerUser/api61",
         formData,
       );
-      navigate("/");
+      navigate("/SignIn");
 
       console.log(response.data);
       alert("User Registered Successfully");

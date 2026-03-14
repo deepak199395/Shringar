@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../ReduxToolkit/authSlice";
 import "./SingIn.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -8,7 +10,7 @@ const SignIn = () => {
   const [Password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleNavigate = () => {
@@ -29,7 +31,7 @@ const SignIn = () => {
       console.log("Ready to call login API", { Email, Password });
 
       const response = await axios.post(
-        "https://api.shrigaar.com/api/v1/shringar/User/login/api60",
+        "https://api.shrigaar.com/api/v1/shringar/User/login/api66",
         {
           Email: Email,
           Password: Password,
@@ -37,7 +39,14 @@ const SignIn = () => {
       );
 
       if (response.status === 200) {
-        window.location.href = "https://shringaarprod.netlify.app/";
+        dispatch(
+          loginSuccess({
+            name: response.data.FullName,
+            email: response.data.Email,
+          }),
+        );
+
+        navigate("/");
       }
     } catch (error) {
       setError("Invalid email or password");
