@@ -36,16 +36,18 @@ const SignIn = () => {
 
     if (response.data.success) {
 
-      const userData = response.data.user;
+  const userData = response.data.user;
 
-      // save token
-      localStorage.setItem("token", response.data.token);
+  // save token
+  localStorage.setItem("token", response.data.token);
 
-      // save user in redux
-      dispatch(loginSuccess(userData));
+  // save user
+  localStorage.setItem("user", JSON.stringify(userData));
 
-      navigate("/");
-    }
+  dispatch(loginSuccess(userData));
+
+  navigate("/");
+}
 
   } catch (error) {
     setError("Invalid email or password");
