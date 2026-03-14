@@ -9,12 +9,17 @@ import Collections from './pages/product/Collections/Collections';
 import CollectionProducts from './pages/product/Collections/CollectionProducts';
 import Cart from './pages/cart/Cart';
 import Checkout from './pages/Checkout/Checkout';
+import PlaceOrder from './Payment/PlaceOrder';
+import SignUp from './Auth/Register/SignUp';
+import SignIn from './Auth/Login/SignIn';
 const App = () => {
   return (
     <>
     <BrowserRouter>
     <Routes>
       <Route path='/' element={<HomePage/>}/>
+      <Route path='/SignIn' element={<SignIn/>}/>
+      <Route path='/SignUp' element={<SignUp/>}/>
       <Route path='/header' element={<Header/>}/>
       <Route path='/footer' element={<Footer/>}/>
       <Route path='/login' element={<LoginScreen/>}/>
@@ -23,6 +28,7 @@ const App = () => {
       <Route path="/collection/:collectionId" element={<CollectionProducts />}/>
       <Route path='cart' element={<Cart/>}/>
       <Route path='/checkout' element={<Checkout/>}/>
+      <Route path='/PlaceOrder' element={<PlaceOrder/>}/>
       </Routes>
     </BrowserRouter>
     </>
