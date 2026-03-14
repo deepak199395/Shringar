@@ -18,41 +18,39 @@ const SignIn = () => {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      if (!Email || !Password) {
-        setError("Both Email and Password are required.");
-        return;
-      }
-
-      setError("");
-
-      console.log("Ready to call login API", { Email, Password });
-
-      const response = await axios.post(
-        "https://api.shrigaar.com/api/v1/shringar/User/login/api66",
-        {
-          Email: Email,
-          Password: Password,
-        },
-      );
-
-      if (response.status === 200) {
-        dispatch(
-          loginSuccess({
-            name: response.data.FullName,
-            email: response.data.Email,
-          }),
-        );
-
-        navigate("/");
-      }
-    } catch (error) {
-      setError("Invalid email or password");
-      console.log(error);
+  try {
+    if (!Email || !Password) {
+      setError("Both Email and Password are required.");
+      return;
     }
-  };
+
+    const response = await axios.post(
+      "https://api.shrigaar.com/api/v1/shringar/User/login/api66",
+      {
+        Email,
+        Password,
+      }
+    );
+
+    if (response.data.success) {
+
+      const userData = response.data.user;
+
+      // save token
+      localStorage.setItem("token", response.data.token);
+
+      // save user in redux
+      dispatch(loginSuccess(userData));
+
+      navigate("/");
+    }
+
+  } catch (error) {
+    setError("Invalid email or password");
+  }
+};
 
   return (
     <div className="login-wrapper">

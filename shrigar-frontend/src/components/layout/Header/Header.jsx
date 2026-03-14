@@ -8,12 +8,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../../ReduxToolkit/authSlice";
 
 const Header = () => {
-
   const [menuOpen, setMenuOpen] = useState(false);
 
   const dispatch = useDispatch();
   const { isSignIn, user } = useSelector((state) => state.auth);
-
   const { cartItems } = useCart();
 
   const closeMenu = () => setMenuOpen(false);
@@ -23,7 +21,6 @@ const Header = () => {
 
   return (
     <header className="header">
-
       {/* Logo */}
       <Link to="/" className="logo" onClick={closeMenu}>
         <img src={logo} alt="Shrigar Luxury Intimate Jewellery" />
@@ -31,7 +28,6 @@ const Header = () => {
 
       {/* Desktop Navigation */}
       <nav className="nav desktop-nav">
-
         <Link to="/">Home</Link>
         <Link to="/shop">Shop</Link>
 
@@ -46,23 +42,15 @@ const Header = () => {
         {/* Authentication */}
         {isSignIn ? (
           <div className="user-section">
+            <span className="user-name">👤 {user?.name}</span>
 
-            <span className="user-name">
-              👤 {user?.name}
-            </span>
-
-            <button
-              className="logout-btn"
-              onClick={() => dispatch(logout())}
-            >
+            <button className="logout-btn" onClick={() => dispatch(logout())}>
               Logout
             </button>
-
           </div>
         ) : (
           <Link to="/SignIn">Login</Link>
         )}
-
       </nav>
 
       {/* Hamburger */}
@@ -78,36 +66,33 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       <nav className={`mobile-nav ${menuOpen ? "show" : ""}`}>
-
-        <Link to="/" onClick={closeMenu}>Home</Link>
-        <Link to="/shop" onClick={closeMenu}>Shop</Link>
+        <Link to="/" onClick={closeMenu}>
+          Home
+        </Link>
+        <Link to="/shop" onClick={closeMenu}>
+          Shop
+        </Link>
 
         <Link to="/cart" className="cart-link">
           🛒 Cart
           {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
         </Link>
 
-        <Link to="/account" onClick={closeMenu}>Account</Link>
-
+        <Link to="/account" onClick={closeMenu}>
+          Account
+        </Link>
         {isSignIn ? (
-          <>
-            <span className="mobile-user">👤 {user?.name}</span>
+          <div className="user-section">
+            <span className="user-name">👤 {user?.FullName}</span>
 
-            <button
-              className="logout-btn"
-              onClick={() => dispatch(logout())}
-            >
+            <button className="logout-btn" onClick={() => dispatch(logout())}>
               Logout
             </button>
-          </>
+          </div>
         ) : (
-          <Link to="/SignIn" onClick={closeMenu}>
-            Login
-          </Link>
+          <Link to="/SignIn">Login</Link>
         )}
-
       </nav>
-
     </header>
   );
 };
