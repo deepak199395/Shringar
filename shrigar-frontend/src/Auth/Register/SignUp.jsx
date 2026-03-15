@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { registerRequest } from "../../ReduxToolkit/authSlice";
 import "./SignUp.css";
 
 const SignUp = () => {
-  //const [gender,setGender]=useState()
+
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { loading, error } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     FullName: "",
@@ -33,33 +37,28 @@ const SignUp = () => {
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post(
-        "https://api.shrigaar.com/api/v1/shringar/User/registerUser/api61",
-        formData,
-      );
-      navigate("/SignIn");
+    dispatch(registerRequest(formData));
 
-      console.log(response.data);
-      alert("User Registered Successfully");
-    } catch (error) {
-      console.log(error);
-      alert("Registration Failed");
-    }
+    navigate("/SignIn");
   };
 
   return (
     <div className="signup-wrapper">
       <div className="signup-card">
+
         <h2>Create Account</h2>
 
-        <div className="step-indicator">Step {step} of 3</div>
+        <div className="step-indicator">
+          Step {step} of 3
+        </div>
 
         <form onSubmit={handleSubmit}>
+
           {/* STEP 1 */}
+
           {step === 1 && (
             <>
               <div className="signup-group">
@@ -99,13 +98,18 @@ const SignUp = () => {
                 />
               </div>
 
-              <button type="button" className="signup-btn" onClick={nextStep}>
+              <button
+                type="button"
+                className="signup-btn"
+                onClick={nextStep}
+              >
                 Next
               </button>
             </>
           )}
 
           {/* STEP 2 */}
+
           {step === 2 && (
             <>
               <div className="signup-group">
@@ -128,6 +132,7 @@ const SignUp = () => {
 
               <div className="signup-group">
                 <label>Gender</label>
+
                 <select
                   name="Gender"
                   value={formData.Gender}
@@ -138,20 +143,31 @@ const SignUp = () => {
                   <option value="Female">Female</option>
                   <option value="Other">Other</option>
                 </select>
+
               </div>
 
               <div className="btn-group">
-                <button type="button" onClick={prevStep}>
+
+                <button
+                  type="button"
+                  onClick={prevStep}
+                >
                   Back
                 </button>
-                <button type="button" onClick={nextStep}>
+
+                <button
+                  type="button"
+                  onClick={nextStep}
+                >
                   Next
                 </button>
+
               </div>
             </>
           )}
 
           {/* STEP 3 */}
+
           {step === 3 && (
             <>
               <div className="signup-group">
@@ -200,14 +216,33 @@ const SignUp = () => {
               </div>
 
               <div className="btn-group">
-                <button type="button" onClick={prevStep}>
+
+                <button
+                  type="button"
+                  onClick={prevStep}
+                >
                   Back
                 </button>
-                <button type="submit">Submit</button>
+
+                <button
+                  type="submit"
+                  className="signup-btn"
+                >
+                  {loading ? "Creating..." : "Submit"}
+                </button>
+
               </div>
             </>
           )}
+
         </form>
+
+        {error && (
+          <p className="error-text">
+            {error}
+          </p>
+        )}
+
       </div>
     </div>
   );
