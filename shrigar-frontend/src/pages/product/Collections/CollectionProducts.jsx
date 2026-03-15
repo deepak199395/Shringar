@@ -1,25 +1,20 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "../Collections/CollectionProducts.css";
-
 import Header from "../../../components/layout/Header/Header";
 import Footer from "../../../components/layout/Footer/Footer";
-
 import { useCart } from "../../../components/context/CartContext";
-
 import { useDispatch, useSelector } from "react-redux";
 import { productRequest } from "../../../ReduxToolkit/productSlice";
 
 const CollectionProducts = () => {
-
   const { collectionId } = useParams();
   const { addToCart } = useCart();
-
   const dispatch = useDispatch();
-
   const { products, loading } = useSelector(
     (state) => state.products
   );
+console.log("productDetails",products);
 
   useEffect(() => {
 
@@ -94,7 +89,7 @@ const CollectionProducts = () => {
                   className="add-to-cart-btn"
                   onClick={() => addToCart(item)}
                 >
-                  Add to Cart
+                  Add to Cart 
                 </button>
 
               </div>

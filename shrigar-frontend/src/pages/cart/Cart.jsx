@@ -3,7 +3,9 @@ import Header from "../../components/layout/Header/Header";
 import { useCart } from "../../components/context/CartContext";
 import "./Cart.css";
 import { Link } from "react-router-dom";
+
 const Cart = () => {
+
   const { cartItems, removeFromCart, updateQty } = useCart();
 
   const totalAmount = cartItems.reduce(
@@ -14,7 +16,7 @@ const Cart = () => {
           ? item.originalPrice -
             (item.originalPrice * item.discountPercentage) / 100
           : item.originalPrice),
-    0,
+    0
   );
 
   if (!cartItems.length) {
@@ -26,24 +28,36 @@ const Cart = () => {
       <Header />
 
       <div className="cart-page">
+
         <h2>My Cart</h2>
 
         {cartItems.map((item) => (
+
           <div className="cart-item" key={item._id}>
+
             <img src={item.image} alt={item.productName} />
 
             <div className="cart-info">
+
               <h4>{item.productName}</h4>
               <p>₹{item.originalPrice}</p>
 
               <div className="qty-box">
-                <button onClick={() => updateQty(item._id, item.qty - 1)}>
+
+                <button
+                  onClick={() => updateQty(item._id, item.qty - 1)}
+                >
                   -
                 </button>
+
                 <span>{item.qty}</span>
-                <button onClick={() => updateQty(item._id, item.qty + 1)}>
+
+                <button
+                  onClick={() => updateQty(item._id, item.qty + 1)}
+                >
                   +
                 </button>
+
               </div>
 
               <button
@@ -52,15 +66,21 @@ const Cart = () => {
               >
                 Remove
               </button>
+
             </div>
-             <Link to="/checkout">
-          <button className="checkout-btn">Proceed to Checkout</button>
-        </Link>
+
           </div>
+
         ))}
 
         <h3>Total: ₹{Math.round(totalAmount)}</h3>
-       
+
+        <Link to="/checkout">
+          <button className="checkout-btn">
+            Proceed to Checkout
+          </button>
+        </Link>
+
       </div>
     </>
   );
