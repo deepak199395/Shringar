@@ -3,6 +3,7 @@ import createSagaMiddleware from "redux-saga";
 
 import authReducer from "./authSlice";
 import collectionReducer from "./collectionSlice";
+import productReducer from "./productSlice";
 
 import rootSaga from "./sagas/rootSaga";
 
@@ -11,7 +12,9 @@ const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    collections: collectionReducer
+    collections: collectionReducer,
+    products: productReducer
+
   },
 
   middleware: (getDefaultMiddleware) =>

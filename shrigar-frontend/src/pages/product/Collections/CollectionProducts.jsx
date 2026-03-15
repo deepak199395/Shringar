@@ -1,52 +1,33 @@
-import React, { useEffect, useState, useCallback } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "../Collections/CollectionProducts.css";
+
 import Header from "../../../components/layout/Header/Header";
 import Footer from "../../../components/layout/Footer/Footer";
+
 import { useCart } from "../../../components/context/CartContext";
 
+import { useDispatch, useSelector } from "react-redux";
+import { productRequest } from "../../../ReduxToolkit/productSlice";
+
 const CollectionProducts = () => {
+
   const { collectionId } = useParams();
   const { addToCart } = useCart();
 
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  // ✅ Fetch & filter products by collectionId
-  const fetchProducts = useCallback(async () => {
-    try {
-      setLoading(true);
+  const { products, loading } = useSelector(
+    (state) => state.products
+  );
 
-      const res = await axios.get(
-        "https://api.shrigaar.com/api/v1/shrigar/Collections/products/list/api56",
-      );
-
-      if (res?.data?.success && res?.data?.flage === "Y") {
-        const filteredProducts = res.data.product.filter(
-          (item) => item.collectionId === collectionId,
-        );
-
-        setProducts(filteredProducts);
-      } else {
-        setProducts([]);
-      }
-    } catch (error) {
-      console.error("❌ Failed to fetch products:", error);
-      setProducts([]);
-    } finally {
-      setLoading(false);
-    }
-  }, [collectionId]);
-
-  // ✅ Call API when collectionId changes
   useEffect(() => {
-    if (collectionId) {
-      fetchProducts();
-    }
-  }, [collectionId, fetchProducts]);
 
-  // ---------------- UI STATES ----------------
+    if (collectionId) {
+      dispatch(productRequest(collectionId));
+    }
+
+  }, [collectionId, dispatch]);
 
   if (loading) {
     return <p className="status-text">Loading products...</p>;
@@ -56,25 +37,29 @@ const CollectionProducts = () => {
     return <p className="status-text">No products found.</p>;
   }
 
-  // ---------------- RENDER ----------------
-
   return (
     <div className="collection-products-page">
+
       <Header />
+
       <div className="product-grid">
+
         {products.map((item) => {
+
           const finalPrice =
             item.discountPercentage > 0
               ? Math.round(
                   item.originalPrice -
-                    (item.originalPrice * item.discountPercentage) / 100,
+                  (item.originalPrice * item.discountPercentage) / 100
                 )
               : item.originalPrice;
 
           return (
+
             <div className="product-card" key={item._id}>
-              {/* IMAGE */}
+
               <div className="product-image">
+
                 <img src={item.image} alt={item.productName} />
 
                 {!item.inStock && (
@@ -86,33 +71,44 @@ const CollectionProducts = () => {
                     {item.discountPercentage}% OFF
                   </span>
                 )}
+
               </div>
 
-              {/* INFO */}
               <div className="product-info">
+
                 <h4 className="product-title">{item.productName}</h4>
 
                 <div className="product-price">
+
                   <span className="final-price">₹{finalPrice}</span>
+
                   {item.discountPercentage > 0 && (
                     <span className="original-price">
                       ₹{item.originalPrice}
                     </span>
                   )}
+
                 </div>
 
                 <button
                   className="add-to-cart-btn"
                   onClick={() => addToCart(item)}
                 >
-                  Add to Cart 
+                  Add to Cart
                 </button>
+
               </div>
+
             </div>
+
           );
+
         })}
+
       </div>
+
       <Footer />
+
     </div>
   );
 };
