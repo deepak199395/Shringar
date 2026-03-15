@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import "./Checkout.css";
 
 const Checkout = () => {
-
   const { cartItems } = useCart();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,36 +20,30 @@ const Checkout = () => {
     addressLine: "",
     city: "",
     state: "",
-    pincode: ""
+    pincode: "",
   });
 
   /* CHECK LOGIN STATUS */
 
   useEffect(() => {
-
     if (!isSignIn) {
       navigate("/signin");
     }
-
   }, [isSignIn, navigate]);
 
   /* AUTO FILL ADDRESS FROM LOGIN API */
 
   useEffect(() => {
-
     if (user) {
-
       setAddress({
         fullName: user.FullName || "",
         phone: user.phoneNumber || "",
         addressLine: user.Address || "",
         city: user.City || "",
         state: user.State || "",
-        pincode: user.Pincode || ""
+        pincode: user.Pincode || "",
       });
-
     }
-
   }, [user]);
 
   const totalAmount = cartItems.reduce(
@@ -65,6 +58,26 @@ const Checkout = () => {
   );
 
   const handlePlaceOrder = () => {
+
+    /* ADDRESS VALIDATION */
+
+    if (
+      !address.fullName ||
+      !address.phone ||
+      !address.addressLine ||
+      !address.city ||
+      !address.state ||
+      !address.pincode
+    ) {
+      alert("Your address is incomplete. Please update your profile.");
+      return;
+    }
+
+    if (!user?.id) {
+      alert("User not authenticated.");
+      navigate("/signin");
+      return;
+    }
 
     const items = cartItems.map((item) => ({
       productId: item._id,
@@ -81,18 +94,17 @@ const Checkout = () => {
             (item.originalPrice * item.discountPercentage) / 100
           : item.originalPrice,
       inStock: item.inStock,
-      collectionId: item.collectionId
+      collectionId: item.collectionId,
     }));
 
     const payload = {
-      userId: user?.id,
+      userId: user.id,
       items,
       address,
-      totalAmount
+      totalAmount,
     };
 
     dispatch(createOrderRequest(payload));
-
   };
 
   if (!cartItems.length) {
@@ -104,47 +116,44 @@ const Checkout = () => {
       <Header />
 
       <div className="checkout-page">
-
         <h2>Checkout</h2>
 
-        {/* AUTO FILLED USER ADDRESS */}
+        {/* USER ADDRESS */}
 
         <div className="address-box">
-
           <p><b>Name:</b> {address.fullName}</p>
           <p><b>Phone:</b> {address.phone}</p>
           <p><b>Address:</b> {address.addressLine}</p>
           <p><b>City:</b> {address.city}</p>
           <p><b>State:</b> {address.state}</p>
           <p><b>Pincode:</b> {address.pincode}</p>
-
         </div>
 
         {/* ORDER SUMMARY */}
 
         {cartItems.map((item) => (
           <div key={item._id} className="checkout-item">
-
             <span>
               {item.productName} × {item.qty}
             </span>
-
             <span>
-              ₹{item.originalPrice * item.qty}
+              ₹
+              {Math.round(
+                item.qty *
+                  (item.discountPercentage > 0
+                    ? item.originalPrice -
+                      (item.originalPrice * item.discountPercentage) / 100
+                    : item.originalPrice)
+              )}
             </span>
-
           </div>
         ))}
 
         <h3>Total: ₹{Math.round(totalAmount)}</h3>
 
-        <button
-          className="checkout-btn"
-          onClick={handlePlaceOrder}
-        >
+        <button className="checkout-btn" onClick={handlePlaceOrder}>
           Place Order
         </button>
-
       </div>
 
       <Footer />
