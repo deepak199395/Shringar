@@ -12,6 +12,7 @@ import Checkout from './pages/Checkout/Checkout';
 import PlaceOrder from './Payment/PlaceOrder';
 import SignUp from './Auth/Register/SignUp';
 import SignIn from './Auth/Login/SignIn';
+import Orders from './pages/Orders/Orders';
 const App = () => {
   return (
     <>
@@ -29,6 +30,8 @@ const App = () => {
       <Route path='cart' element={<Cart/>}/>
       <Route path='/checkout' element={<Checkout/>}/>
       <Route path='/PlaceOrder' element={<PlaceOrder/>}/>
+      <Route path='/orders' element={<Orders/>}/>
+
       </Routes>
     </BrowserRouter>
     </>

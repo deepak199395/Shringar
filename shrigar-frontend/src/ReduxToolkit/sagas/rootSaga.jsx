@@ -3,6 +3,7 @@ import { watchAuthSaga } from "./authSaga";
 import { watchCollectionSaga } from "./collectionSaga";
 import { watchProductSaga } from "./productSaga";
 import { watchOrderSaga } from "./orderSaga";
+import { watchOrderListSaga } from "./orderListSaga";
 
 export default function* rootSaga() {
 
@@ -10,7 +11,9 @@ export default function* rootSaga() {
     watchAuthSaga(),
     watchCollectionSaga(),
     watchProductSaga(),
-    watchOrderSaga()
+    watchOrderSaga(),
+    watchOrderListSaga()
+
    ]);
 
 }
