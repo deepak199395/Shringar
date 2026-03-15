@@ -105,7 +105,7 @@ const CollectionProducts = () => {
                   className="add-to-cart-btn"
                   onClick={() => addToCart(item)}
                 >
-                  Add to Cart
+                  Add to Cart 
                 </button>
               </div>
             </div>
