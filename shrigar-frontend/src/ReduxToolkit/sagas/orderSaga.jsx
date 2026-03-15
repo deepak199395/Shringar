@@ -15,14 +15,7 @@ function* createOrderSaga(action) {
       action.payload
     );
 
-    // ✅ Order success in redux
     yield put(createOrderSuccess(response.data));
-
-    // ✅ Clear cart (if stored in localStorage)
-    localStorage.removeItem("cart");
-
-    // ✅ Redirect to orders page
-    window.location.href = "/";
 
   } catch (error) {
 

@@ -8,22 +8,18 @@ import { useNavigate } from "react-router-dom";
 import "./Checkout.css";
 
 const Checkout = () => {
+
   const { cartItems } = useCart();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { user, isSignIn } = useSelector((state) => state.auth);
+  const { success } = useSelector((state) => state.order);
 
-  const [address, setAddress] = useState({
-    fullName: "",
-    phone: "",
-    addressLine: "",
-    city: "",
-    state: "",
-    pincode: "",
-  });
+  const [countdown, setCountdown] = useState(5);
+  const [showModal, setShowModal] = useState(false);
 
-  /* CHECK LOGIN STATUS */
+  /* REDIRECT IF NOT LOGGED IN */
 
   useEffect(() => {
     if (!isSignIn) {
@@ -31,20 +27,41 @@ const Checkout = () => {
     }
   }, [isSignIn, navigate]);
 
-  /* AUTO FILL ADDRESS FROM LOGIN API */
+  /* ORDER SUCCESS MODAL */
 
   useEffect(() => {
-    if (user) {
-      setAddress({
-        fullName: user.FullName || "",
-        phone: user.phoneNumber || "",
-        addressLine: user.Address || "",
-        city: user.City || "",
-        state: user.State || "",
-        pincode: user.Pincode || "",
-      });
+
+    if (success) {
+
+      setShowModal(true);
+
+      const interval = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+
+      setTimeout(() => {
+        clearInterval(interval);
+        navigate("/orders");
+      }, 5000);
+
+      return () => clearInterval(interval);
+
     }
-  }, [user]);
+
+  }, [success, navigate]);
+
+  /* ADDRESS FROM USER */
+
+  const address = {
+    fullName: user?.FullName || "",
+    phone: user?.phoneNumber || "",
+    addressLine: user?.Address || "",
+    city: user?.City || "",
+    state: user?.State || "",
+    pincode: user?.Pincode || ""
+  };
+
+  /* CALCULATE TOTAL */
 
   const totalAmount = cartItems.reduce(
     (sum, item) =>
@@ -57,9 +74,9 @@ const Checkout = () => {
     0
   );
 
-  const handlePlaceOrder = () => {
+  /* PLACE ORDER */
 
-    /* ADDRESS VALIDATION */
+  const handlePlaceOrder = () => {
 
     if (
       !address.fullName ||
@@ -70,12 +87,6 @@ const Checkout = () => {
       !address.pincode
     ) {
       alert("Your address is incomplete. Please update your profile.");
-      return;
-    }
-
-    if (!user?.id) {
-      alert("User not authenticated.");
-      navigate("/signin");
       return;
     }
 
@@ -94,17 +105,18 @@ const Checkout = () => {
             (item.originalPrice * item.discountPercentage) / 100
           : item.originalPrice,
       inStock: item.inStock,
-      collectionId: item.collectionId,
+      collectionId: item.collectionId
     }));
 
     const payload = {
-      userId: user.id,
+      userId: user?.id,
       items,
       address,
-      totalAmount,
+      totalAmount
     };
 
     dispatch(createOrderRequest(payload));
+
   };
 
   if (!cartItems.length) {
@@ -116,9 +128,10 @@ const Checkout = () => {
       <Header />
 
       <div className="checkout-page">
+
         <h2>Checkout</h2>
 
-        {/* USER ADDRESS */}
+        {/* ADDRESS */}
 
         <div className="address-box">
           <p><b>Name:</b> {address.fullName}</p>
@@ -132,10 +145,13 @@ const Checkout = () => {
         {/* ORDER SUMMARY */}
 
         {cartItems.map((item) => (
+
           <div key={item._id} className="checkout-item">
+
             <span>
               {item.productName} × {item.qty}
             </span>
+
             <span>
               ₹
               {Math.round(
@@ -146,15 +162,43 @@ const Checkout = () => {
                     : item.originalPrice)
               )}
             </span>
+
           </div>
+
         ))}
 
         <h3>Total: ₹{Math.round(totalAmount)}</h3>
 
-        <button className="checkout-btn" onClick={handlePlaceOrder}>
+        <button
+          className="checkout-btn"
+          onClick={handlePlaceOrder}
+        >
           Place Order
         </button>
+
       </div>
+
+      {/* SUCCESS MODAL */}
+
+      {showModal && (
+        <div className="order-modal">
+          <div className="order-modal-content">
+
+            <div className="loader"></div>
+
+            <h2>Processing your order...</h2>
+
+            <h3>{countdown}</h3>
+
+            {countdown === 0 && (
+              <h2 className="success-text">
+                🎉 Congratulations! Your order has been placed successfully
+              </h2>
+            )}
+
+          </div>
+        </div>
+      )}
 
       <Footer />
     </>
