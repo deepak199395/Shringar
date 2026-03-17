@@ -9,6 +9,7 @@ import { logout } from "../../../ReduxToolkit/authSlice";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
   const { isSignIn, user } = useSelector((state) => state.auth);
@@ -21,6 +22,7 @@ const Header = () => {
 
   return (
     <header className="header">
+
       {/* Logo */}
       <Link to="/" className="logo" onClick={closeMenu}>
         <img src={logo} alt="Shrigar Luxury Intimate Jewellery" />
@@ -28,8 +30,21 @@ const Header = () => {
 
       {/* Desktop Navigation */}
       <nav className="nav desktop-nav">
+
         <Link to="/">Home</Link>
         <Link to="/shop">Shop</Link>
+
+        {/* SEARCH BAR */}
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Search jewellery..."
+            className="search-input"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <span className="search-icon">🔍</span>
+        </div>
 
         {/* Cart */}
         <Link to="/cart" className="cart-link">
@@ -44,7 +59,10 @@ const Header = () => {
           <div className="user-section">
             <span className="user-name">👤 {user?.name}</span>
 
-            <button className="logout-btn" onClick={() => dispatch(logout())}>
+            <button
+              className="logout-btn"
+              onClick={() => dispatch(logout())}
+            >
               Logout
             </button>
           </div>
@@ -66,33 +84,45 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       <nav className={`mobile-nav ${menuOpen ? "show" : ""}`}>
-        <Link to="/" onClick={closeMenu}>
-          Home
-        </Link>
-        <Link to="/shop" onClick={closeMenu}>
-          Shop
-        </Link>
 
-        <Link to="/cart" className="cart-link">
+        {/* MOBILE SEARCH */}
+        <div className="mobile-search-box">
+          <input
+            type="text"
+            placeholder="Search jewellery..."
+            className="search-input"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <span className="search-icon">🔍</span>
+        </div>
+
+        <Link to="/" onClick={closeMenu}>Home</Link>
+        <Link to="/shop" onClick={closeMenu}>Shop</Link>
+
+        <Link to="/cart" className="cart-link" onClick={closeMenu}>
           🛒 Cart
           {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
         </Link>
 
-        <Link to="/account" onClick={closeMenu}>
-          Account
-        </Link>
+        <Link to="/account" onClick={closeMenu}>Account</Link>
+
         {isSignIn ? (
           <div className="user-section">
             <span className="user-name">👤 {user?.FullName}</span>
 
-            <button className="logout-btn" onClick={() => dispatch(logout())}>
+            <button
+              className="logout-btn"
+              onClick={() => dispatch(logout())}
+            >
               Logout
             </button>
           </div>
         ) : (
-          <Link to="/SignIn">Login</Link>
+          <Link to="/SignIn" onClick={closeMenu}>Login</Link>
         )}
       </nav>
+
     </header>
   );
 };

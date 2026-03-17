@@ -19,6 +19,9 @@ const Checkout = () => {
   const [countdown, setCountdown] = useState(5);
   const [showModal, setShowModal] = useState(false);
 
+  // ✅ Payment Method State
+  const [paymentMethod, setPaymentMethod] = useState("COD");
+
   /* REDIRECT IF NOT LOGGED IN */
 
   useEffect(() => {
@@ -112,7 +115,8 @@ const Checkout = () => {
       userId: user?.id,
       items,
       address,
-      totalAmount
+      totalAmount,
+      paymentMethod // ✅ Added payment method
     };
 
     dispatch(createOrderRequest(payload));
@@ -142,6 +146,24 @@ const Checkout = () => {
           <p><b>Pincode:</b> {address.pincode}</p>
         </div>
 
+        {/* PAYMENT METHOD */}
+
+        <div className="payment-box">
+          <h3>Payment Method</h3>
+
+          <label className="payment-option">
+            <input
+              type="radio"
+              name="payment"
+              value="COD"
+              checked={paymentMethod === "COD"}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+            Cash on Delivery
+          </label>
+
+        </div>
+
         {/* ORDER SUMMARY */}
 
         {cartItems.map((item) => (
@@ -168,6 +190,16 @@ const Checkout = () => {
         ))}
 
         <h3>Total: ₹{Math.round(totalAmount)}</h3>
+
+        {/* NOTE */}
+
+        <div className="note-box">
+          <p>
+            <b>Note:</b><br />
+            Currently we support <b>Cash on Delivery</b> only.
+            Online payments will be available soon.
+          </p>
+        </div>
 
         <button
           className="checkout-btn"

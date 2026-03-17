@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../Collections/CollectionProducts.css";
 import Header from "../../../components/layout/Header/Header";
@@ -6,22 +6,21 @@ import Footer from "../../../components/layout/Footer/Footer";
 import { useCart } from "../../../components/context/CartContext";
 import { useDispatch, useSelector } from "react-redux";
 import { productRequest } from "../../../ReduxToolkit/productSlice";
+import CustomModal from "../../../CustomComponents/CustomModal";
 
 const CollectionProducts = () => {
   const { collectionId } = useParams();
   const { addToCart } = useCart();
   const dispatch = useDispatch();
-  const { products, loading } = useSelector(
-    (state) => state.products
-  );
-console.log("productDetails",products);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+  const { products, loading } = useSelector((state) => state.products);
+  console.log("productDetails", products);
 
   useEffect(() => {
-
     if (collectionId) {
       dispatch(productRequest(collectionId));
     }
-
   }, [collectionId, dispatch]);
 
   if (loading) {
@@ -34,27 +33,21 @@ console.log("productDetails",products);
 
   return (
     <div className="collection-products-page">
-
       <Header />
 
       <div className="product-grid">
-
         {products.map((item) => {
-
           const finalPrice =
             item.discountPercentage > 0
               ? Math.round(
                   item.originalPrice -
-                  (item.originalPrice * item.discountPercentage) / 100
+                    (item.originalPrice * item.discountPercentage) / 100,
                 )
               : item.originalPrice;
 
           return (
-
             <div className="product-card" key={item._id}>
-
               <div className="product-image">
-
                 <img src={item.image} alt={item.productName} />
 
                 {!item.inStock && (
@@ -66,15 +59,12 @@ console.log("productDetails",products);
                     {item.discountPercentage}% OFF
                   </span>
                 )}
-
               </div>
 
               <div className="product-info">
-
                 <h4 className="product-title">{item.productName}</h4>
 
                 <div className="product-price">
-
                   <span className="final-price">₹{finalPrice}</span>
 
                   {item.discountPercentage > 0 && (
@@ -82,28 +72,29 @@ console.log("productDetails",products);
                       ₹{item.originalPrice}
                     </span>
                   )}
-
                 </div>
 
                 <button
                   className="add-to-cart-btn"
-                  onClick={() => addToCart(item)}
+                  onClick={() => {
+                    addToCart(item);
+                    setPopupMessage("✅ Product added to cart!");
+                    setShowPopup(true);
+                  }}
                 >
-                  Add to Cart 
+                  Add to Cart
                 </button>
-
               </div>
-
             </div>
-
           );
-
         })}
-
       </div>
-
+      <CustomModal
+        show={showPopup}
+        message={popupMessage}
+        onClose={() => setShowPopup(false)}
+      />
       <Footer />
-
     </div>
   );
 };
