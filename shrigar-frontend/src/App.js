@@ -13,6 +13,10 @@ import PlaceOrder from './Payment/PlaceOrder';
 import SignUp from './Auth/Register/SignUp';
 import SignIn from './Auth/Login/SignIn';
 import Orders from './pages/Orders/Orders';
+import Shop from './components/layout/Header/Shop';
+import TrackPackage from './components/layout/Header/SubHeader/TrackPackage/TrackPackage';
+import ReturnExchange from './components/layout/Header/SubHeader/Return&Exchange/ReturnExchange';
+import ContactUs from './components/layout/Header/SubHeader/ContactUs/ContactUs';
 const App = () => {
   return (
     <>
@@ -31,6 +35,10 @@ const App = () => {
       <Route path='/checkout' element={<Checkout/>}/>
       <Route path='/PlaceOrder' element={<PlaceOrder/>}/>
       <Route path='/orders' element={<Orders/>}/>
+      <Route path='/shop' element={<Shop/>}/>
+      <Route path='/track-order' element={<TrackPackage/>}/>
+      <Route path='/returns' element={<ReturnExchange/>}/>
+      <Route path='/contact' element={<ContactUs/>}/>
 
       </Routes>
     </BrowserRouter>

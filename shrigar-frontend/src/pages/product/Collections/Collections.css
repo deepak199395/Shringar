@@ -26,11 +26,11 @@
 
 /* Circle */
 .collection-circle {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
+  width: 180px;
+  height: 180px;
+  border-radius: 60%;
   overflow: hidden;
-  border: 2px solid #000;
+  border: 2px solid #b19f9f;
   background: #f4e6dc;
   display: flex;
   align-items: center;

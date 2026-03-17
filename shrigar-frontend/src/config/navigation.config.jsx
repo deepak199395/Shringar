@@ -1,7 +1,7 @@
 export const SECONDARY_NAV = [
   { label: "New Arrivals", path: "/new-arrivals" },
   { label: "Bestsellers!", path: "/bestsellers" },
-  { label: "Shop Jewellery", path: "/shop" },
+  { label: "Shop New Design", path: "/shop" },
   { label: "Collections", path: "/collections" },
   { label: "Exclusive Sale", path: "/sale" },
   { label: "Boutiques", path: "/boutiques" },

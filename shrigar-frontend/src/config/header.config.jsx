@@ -1,10 +1,18 @@
 export const TOP_OFFER = {
   enabled: true,
-  text: "VALENTINE'S SALE EXTRA FLAT 25% OFF ON ORDERS ABOVE RS. 1000",
-  subText: "auto applied at checkout",
-  backgroundColor: "#e53935",
-  textColor: "#ffffff"
+
+  // Main Heading
+  text: "Welcome to Shringar ✨",
+
+  // Sub text (brand message)
+  subText:
+    "Hello happy customers! We are currently offering bags & purses. More categories coming soon as we grow.",
+
+  // Colors (Luxury Theme)
+  backgroundColor: "#f20808",   // dark premium background
+  textColor: "rgb(251, 251, 250)"          // gold luxury text
 };
+
 
 export const UTILITY_LINKS = [
   { label: "Track Package", path: "/track-order" },
