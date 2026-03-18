@@ -16,57 +16,85 @@ const PhoneAuthModal = ({ show, onClose, onVerify }) => {
   if (!show) return null;
 
   // 🔥 Setup reCAPTCHA
-  const setupRecaptcha = () => {
-  try {
-    if (!window.recaptchaVerifier) {
+ const setupRecaptcha = () => {
+  if (!window.recaptchaVerifier) {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      auth,
+      "recaptcha-container",
+      {
+        size: "invisible"
+      }
+    );
 
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        auth, // ✅ FIRST PARAM MUST BE auth
-        "recaptcha-container", // ✅ SECOND param
-        {
-          size: "invisible"
-        }
-      );
-
-    }
-  } catch (error) {
-    console.error("Recaptcha error:", error);
+    window.recaptchaVerifier.render(); // 🔥 IMPORTANT
   }
 };
 
   // 📲 SEND OTP
-  const handleSendOtp = async () => {
+//   const handleSendOtp = async () => {
 
-    if (phone.length !== 10) {
-      alert("Enter valid mobile number");
-      return;
-    }
+//     if (phone.length !== 10) {
+//       alert("Enter valid mobile number");
+//       return;
+//     }
 
-    setLoading(true);
+//     setLoading(true);
 
-    try {
-      setupRecaptcha();
+//     try {
+//       setupRecaptcha();
 
-      const appVerifier = window.recaptchaVerifier;
+//       const appVerifier = window.recaptchaVerifier;
 
-      const confirmation = await signInWithPhoneNumber(
-        auth,
-        `+91${phone}`,
-        appVerifier
-      );
+//       const confirmation = await signInWithPhoneNumber(
+//         auth,
+//         `+91${phone}`,
+//         appVerifier
+//       );
 
-      window.confirmationResult = confirmation;
+//       window.confirmationResult = confirmation;
 
-      setStep(2);
+//       setStep(2);
 
-    } catch (error) {
-      console.error(error);
-      alert("Failed to send OTP");
-    }
+//     } catch (error) {
+//       console.error(error);
+//       alert("Failed to send OTP");
+//     }
 
-    setLoading(false);
-  };
+//     setLoading(false);
+//   };
+const handleSendOtp = async () => {
 
+  if (phone.length !== 10) {
+    alert("Enter valid mobile number");
+    return;
+  }
+
+  if (loading) return; // 🔥 prevent double click
+
+  setLoading(true);
+
+  try {
+    setupRecaptcha();
+
+    const appVerifier = window.recaptchaVerifier;
+
+    const confirmation = await signInWithPhoneNumber(
+      auth,
+      `+91${phone}`,
+      appVerifier
+    );
+
+    window.confirmationResult = confirmation;
+
+    setStep(2);
+
+  } catch (error) {
+    console.error("OTP ERROR:", error);
+    alert(error.message);
+  }
+
+  setLoading(false);
+};
   // 🔐 VERIFY OTP
   const handleVerifyOtp = async () => {
 
