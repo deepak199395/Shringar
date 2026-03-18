@@ -1,0 +1,54 @@
+.otp-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+}
+
+.otp-box {
+  background: #0b0b0b;
+  color: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+
+  border: 1px solid #c9a24d;
+}
+
+.otp-box h2 {
+  margin-bottom: 15px;
+  color: #c9a24d;
+}
+
+.otp-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+.otp-box button {
+  width: 100%;
+  padding: 10px;
+  background: #c9a24d;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.close-btn {
+  margin-top: 10px;
+  background: transparent;
+  color: white;
+}

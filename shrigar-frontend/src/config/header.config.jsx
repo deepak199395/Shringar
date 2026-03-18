@@ -9,8 +9,8 @@ export const TOP_OFFER = {
     "Hello happy customers! We are currently offering bags & purses. More categories coming soon as we grow.",
 
   // Colors (Luxury Theme)
-  backgroundColor: "#f20808",   // dark premium background
-  textColor: "rgb(251, 251, 250)"          // gold luxury text
+  backgroundColor: "#f20808",   
+  textColor: "rgb(251, 251, 250)"          
 };
 
 

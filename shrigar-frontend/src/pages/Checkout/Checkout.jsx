@@ -5,6 +5,7 @@ import { useCart } from "../../components/context/CartContext";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrderRequest } from "../../ReduxToolkit/orderSlice";
 import { useNavigate } from "react-router-dom";
+import PhoneAuthModal from "../../CustomComponents/PhoneAuthModal";
 import "./Checkout.css";
 
 const Checkout = () => {
@@ -16,14 +17,13 @@ const Checkout = () => {
   const { user, isSignIn } = useSelector((state) => state.auth);
   const { success } = useSelector((state) => state.order);
 
+  const [showOtpModal, setShowOtpModal] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [showModal, setShowModal] = useState(false);
 
-  // ✅ Payment Method State
   const [paymentMethod, setPaymentMethod] = useState("COD");
 
   /* REDIRECT IF NOT LOGGED IN */
-
   useEffect(() => {
     if (!isSignIn) {
       navigate("/signin");
@@ -31,11 +31,8 @@ const Checkout = () => {
   }, [isSignIn, navigate]);
 
   /* ORDER SUCCESS MODAL */
-
   useEffect(() => {
-
     if (success) {
-
       setShowModal(true);
 
       const interval = setInterval(() => {
@@ -48,13 +45,10 @@ const Checkout = () => {
       }, 5000);
 
       return () => clearInterval(interval);
-
     }
-
   }, [success, navigate]);
 
-  /* ADDRESS FROM USER */
-
+  /* ADDRESS */
   const address = {
     fullName: user?.FullName || "",
     phone: user?.phoneNumber || "",
@@ -64,8 +58,7 @@ const Checkout = () => {
     pincode: user?.Pincode || ""
   };
 
-  /* CALCULATE TOTAL */
-
+  /* TOTAL */
   const totalAmount = cartItems.reduce(
     (sum, item) =>
       sum +
@@ -77,8 +70,7 @@ const Checkout = () => {
     0
   );
 
-  /* PLACE ORDER */
-
+  /* STEP 1 → OPEN OTP MODAL */
   const handlePlaceOrder = () => {
 
     if (
@@ -92,6 +84,16 @@ const Checkout = () => {
       alert("Your address is incomplete. Please update your profile.");
       return;
     }
+
+    setShowOtpModal(true);
+  };
+
+  /* STEP 2 → AFTER OTP VERIFIED → PLACE ORDER */
+  const handleVerifySuccess = (token) => {
+
+    console.log("Firebase Token:", token);
+
+    setShowOtpModal(false); // ✅ close modal
 
     const items = cartItems.map((item) => ({
       productId: item._id,
@@ -116,11 +118,11 @@ const Checkout = () => {
       items,
       address,
       totalAmount,
-      paymentMethod // ✅ Added payment method
+      paymentMethod,
+      firebaseToken: token // 🔥 important
     };
 
     dispatch(createOrderRequest(payload));
-
   };
 
   if (!cartItems.length) {
@@ -136,7 +138,6 @@ const Checkout = () => {
         <h2>Checkout</h2>
 
         {/* ADDRESS */}
-
         <div className="address-box">
           <p><b>Name:</b> {address.fullName}</p>
           <p><b>Phone:</b> {address.phone}</p>
@@ -146,37 +147,27 @@ const Checkout = () => {
           <p><b>Pincode:</b> {address.pincode}</p>
         </div>
 
-        {/* PAYMENT METHOD */}
-
+        {/* PAYMENT */}
         <div className="payment-box">
           <h3>Payment Method</h3>
 
           <label className="payment-option">
             <input
               type="radio"
-              name="payment"
               value="COD"
               checked={paymentMethod === "COD"}
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
             Cash on Delivery
           </label>
-
         </div>
 
         {/* ORDER SUMMARY */}
-
         {cartItems.map((item) => (
-
           <div key={item._id} className="checkout-item">
-
+            <span>{item.productName} × {item.qty}</span>
             <span>
-              {item.productName} × {item.qty}
-            </span>
-
-            <span>
-              ₹
-              {Math.round(
+              ₹{Math.round(
                 item.qty *
                   (item.discountPercentage > 0
                     ? item.originalPrice -
@@ -184,34 +175,37 @@ const Checkout = () => {
                     : item.originalPrice)
               )}
             </span>
-
           </div>
-
         ))}
 
         <h3>Total: ₹{Math.round(totalAmount)}</h3>
 
         {/* NOTE */}
-
         <div className="note-box">
           <p>
             <b>Note:</b><br />
             Currently we support <b>Cash on Delivery</b> only.
-            Online payments will be available soon.
           </p>
         </div>
 
         <button
           className="checkout-btn"
           onClick={handlePlaceOrder}
+          disabled={showOtpModal}
         >
           Place Order
         </button>
 
       </div>
 
-      {/* SUCCESS MODAL */}
+      {/* OTP MODAL */}
+      <PhoneAuthModal
+        show={showOtpModal}
+        onClose={() => setShowOtpModal(false)}
+        onVerify={handleVerifySuccess}
+      />
 
+      {/* SUCCESS MODAL */}
       {showModal && (
         <div className="order-modal">
           <div className="order-modal-content">
@@ -219,12 +213,11 @@ const Checkout = () => {
             <div className="loader"></div>
 
             <h2>Processing your order...</h2>
-
             <h3>{countdown}</h3>
 
             {countdown === 0 && (
               <h2 className="success-text">
-                🎉 Congratulations! Your order has been placed successfully
+                🎉 Order placed successfully!
               </h2>
             )}
 
