@@ -1,6 +1,10 @@
+/* ================= CAROUSEL ================= */
+
 .shringar-carousel {
   width: 100%;
   height: 55vh;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .shringar-carousel img {
@@ -9,7 +13,48 @@
   object-fit: cover;
 }
 
-/* Gold pagination */
+/* ================= TABLET ================= */
+
+@media (max-width: 1024px) {
+  .shringar-carousel {
+    height: 45vh;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+  .shringar-carousel {
+    height: 35vh;
+  }
+
+  .shringar-carousel img {
+    object-fit: cover; /* keeps premium look */
+  }
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 480px) {
+  .shringar-carousel {
+    height: 28vh;
+  }
+
+  .shringar-carousel img {
+    object-fit: cover;
+  }
+}
+
+/* ================= EXTRA SMALL ================= */
+
+@media (max-width: 360px) {
+  .shringar-carousel {
+    height: 24vh;
+  }
+}
+
+/* ================= PAGINATION ================= */
+
 .swiper-pagination-bullet {
   background: #c9a24d;
   opacity: 0.4;
