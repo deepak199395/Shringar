@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../Collections/CollectionProducts.css";
 import Header from "../../../components/layout/Header/Header";
-import Footer from "../../../components/layout/Footer/Footer";
 import { useCart } from "../../../components/context/CartContext";
 import { useDispatch, useSelector } from "react-redux";
 import { productRequest } from "../../../ReduxToolkit/productSlice";
@@ -12,10 +11,12 @@ const CollectionProducts = () => {
   const { collectionId } = useParams();
   const { addToCart } = useCart();
   const dispatch = useDispatch();
+
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
+  const [expandedId, setExpandedId] = useState(null);
+
   const { products, loading } = useSelector((state) => state.products);
-  console.log("productDetails", products);
 
   useEffect(() => {
     if (collectionId) {
@@ -41,7 +42,7 @@ const CollectionProducts = () => {
             item.discountPercentage > 0
               ? Math.round(
                   item.originalPrice -
-                    (item.originalPrice * item.discountPercentage) / 100,
+                    (item.originalPrice * item.discountPercentage) / 100
                 )
               : item.originalPrice;
 
@@ -64,6 +65,29 @@ const CollectionProducts = () => {
               <div className="product-info">
                 <h4 className="product-title">{item.productName}</h4>
 
+                {/* DESCRIPTION */}
+                <p
+                  className={`product-desc ${
+                    expandedId === item._id ? "expanded" : ""
+                  }`}
+                >
+                  {item.description}
+                </p>
+
+                {item.description?.length > 80 && (
+                  <span
+                    className="see-more"
+                    onClick={() =>
+                      setExpandedId(
+                        expandedId === item._id ? null : item._id
+                      )
+                    }
+                  >
+                    {expandedId === item._id ? "See less" : "See more"}
+                  </span>
+                )}
+
+                {/* PRICE */}
                 <div className="product-price">
                   <span className="final-price">₹{finalPrice}</span>
 
@@ -74,6 +98,7 @@ const CollectionProducts = () => {
                   )}
                 </div>
 
+                {/* BUTTON */}
                 <button
                   className="add-to-cart-btn"
                   onClick={() => {
@@ -89,12 +114,13 @@ const CollectionProducts = () => {
           );
         })}
       </div>
+
       <CustomModal
         show={showPopup}
         message={popupMessage}
         onClose={() => setShowPopup(false)}
       />
-      <Footer />
+
     </div>
   );
 };

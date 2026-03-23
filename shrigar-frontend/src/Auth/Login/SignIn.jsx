@@ -10,98 +10,84 @@ const SignIn = () => {
   const [Password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleNavigate = () => {
-    navigate("/signup");
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (!Email || !Password) {
+        setError("Enter email and password");
+        return;
+      }
+
+      const response = await axios.post(
+        "https://api.shrigaar.com/api/v1/shringar/User/login/api66",
+        { Email, Password }
+      );
+
+      if (response.data.success) {
+        const userData = response.data.user;
+
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        dispatch(loginSuccess(userData));
+        navigate("/");
+      }
+    } catch (err) {
+      setError("Invalid email or password");
+    }
   };
 
-  const handleLogin = async (e) => {
-  e.preventDefault();
-
-  try {
-    if (!Email || !Password) {
-      setError("Both Email and Password are required.");
-      return;
-    }
-
-    const response = await axios.post(
-      "https://api.shrigaar.com/api/v1/shringar/User/login/api66",
-      {
-        Email,
-        Password,
-      }
-    );
-
-    if (response.data.success) {
-
-  const userData = response.data.user;
-
-  // save token
-  localStorage.setItem("token", response.data.token);
-
-  // save user
-  localStorage.setItem("user", JSON.stringify(userData));
-
-  dispatch(loginSuccess(userData));
-
-  navigate("/");
-}
-
-  } catch (error) {
-    setError("Invalid email or password");
-  }
-};
-
   return (
-    <div className="login-wrapper">
-      <div className="login-card">
-        <h2 className="login-title">Sign In</h2>
-        <p className="login-subtitle">Welcome back! Please login.</p>
+    <div className="login-container">
 
-        <form onSubmit={handleLogin}>
-          <div className="input-group">
+      {/* LEFT SIDE IMAGE */}
+      <div className="login-left">
+        <div className="overlay">
+          <h1>Welcome to Shrigaar</h1>
+          <p>Shop everything you need with best deals</p>
+        </div>
+      </div>
+
+      {/* RIGHT SIDE FORM */}
+      <div className="login-right">
+        <div className="login-card">
+
+          <h2>Sign In</h2>
+
+          <form onSubmit={handleLogin}>
             <label>Email</label>
             <input
               type="email"
-              placeholder="Enter your email"
               value={Email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </div>
 
-          <div className="input-group password-group">
             <label>Password</label>
-            <div className="password-input">
+            <div className="password-box">
               <input
                 type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
                 value={Password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-
-              <span
-                className="toggle-password"
-                onClick={() => setShowPassword(!showPassword)}
-              >
+              <span onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? "Hide" : "Show"}
               </span>
             </div>
-          </div>
 
-          {error && <p className="error-text">{error}</p>}
+            {error && <p className="error">{error}</p>}
 
-          <button type="submit" className="login-btn">
-            Sign In
-          </button>
-        </form>
+            <button type="submit">Login</button>
+          </form>
 
-        <div className="login-footer">
-          <span className="link">Forgot Password?</span>
-          <span className="link" onClick={handleNavigate}>
+          <p className="create" onClick={() => navigate("/signup")}>
             Create Account
-          </span>
+          </p>
+
         </div>
       </div>
     </div>

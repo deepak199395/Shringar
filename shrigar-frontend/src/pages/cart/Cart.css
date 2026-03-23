@@ -23,7 +23,7 @@
   gap: 20px;
   padding: 15px;
   margin-bottom: 20px;
-  background: #fff;
+  background: hsl(0, 9%, 93%);
   border-radius: 8px;
   border: 1px solid #eee;
   animation: fadeIn 0.4s ease;

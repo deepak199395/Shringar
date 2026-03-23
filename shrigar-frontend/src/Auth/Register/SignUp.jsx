@@ -5,7 +5,6 @@ import { registerRequest } from "../../ReduxToolkit/authSlice";
 import "./SignUp.css";
 
 const SignUp = () => {
-
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,215 +33,101 @@ const SignUp = () => {
     });
   };
 
-  const nextStep = () => setStep(step + 1);
-  const prevStep = () => setStep(step - 1);
+  const nextStep = () => setStep((prev) => prev + 1);
+  const prevStep = () => setStep((prev) => prev - 1);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     dispatch(registerRequest(formData));
-
     navigate("/SignIn");
   };
 
   return (
-    <div className="signup-wrapper">
-      <div className="signup-card">
+    <div className="signup-container">
 
-        <h2>Create Account</h2>
-
-        <div className="step-indicator">
-          Step {step} of 3
+      {/* LEFT SIDE IMAGE */}
+      <div className="signup-left">
+        <div className="overlay">
+          <h1>Create Your Account Today</h1>
+          <p>Personalized Shopping • Faster Checkout • Exclusive Offers</p>
         </div>
+      </div>
 
-        <form onSubmit={handleSubmit}>
+      {/* RIGHT SIDE FORM */}
+      <div className="signup-right">
+        <div className="signup-card">
 
-          {/* STEP 1 */}
+          <h2>Shrigaar</h2>
+          <h3>Create Account</h3>
 
-          {step === 1 && (
-            <>
-              <div className="signup-group">
-                <label>Full Name</label>
-                <input
-                  name="FullName"
-                  value={formData.FullName}
-                  onChange={handleChange}
-                />
-              </div>
+          {/* Progress Bar */}
+          <div className="progress-bar">
+            <div className={`step ${step >= 1 ? "active" : ""}`}></div>
+            <div className={`step ${step >= 2 ? "active" : ""}`}></div>
+            <div className={`step ${step >= 3 ? "active" : ""}`}></div>
+          </div>
 
-              <div className="signup-group">
-                <label>Phone Number</label>
-                <input
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                />
-              </div>
+          <p className="step-text">Step {step} of 3</p>
 
-              <div className="signup-group">
-                <label>Email</label>
-                <input
-                  name="Email"
-                  value={formData.Email}
-                  onChange={handleChange}
-                />
-              </div>
+          <form onSubmit={handleSubmit}>
 
-              <div className="signup-group">
-                <label>Password</label>
-                <input
-                  type="password"
-                  name="Password"
-                  value={formData.Password}
-                  onChange={handleChange}
-                />
-              </div>
+            {/* STEP 1 */}
+            {step === 1 && (
+              <>
+                <input name="FullName" placeholder="Full Name" onChange={handleChange} />
+                <input name="phoneNumber" placeholder="Phone Number" onChange={handleChange} />
+                <input name="Email" placeholder="Email" onChange={handleChange} />
+                <input type="password" name="Password" placeholder="Password" onChange={handleChange} />
 
-              <button
-                type="button"
-                className="signup-btn"
-                onClick={nextStep}
-              >
-                Next
-              </button>
-            </>
-          )}
+                <button type="button" onClick={nextStep}>
+                  Continue
+                </button>
+              </>
+            )}
 
-          {/* STEP 2 */}
+            {/* STEP 2 */}
+            {step === 2 && (
+              <>
+                <input type="date" name="Dob" onChange={handleChange} />
+                <input type="number" name="age" placeholder="Age" onChange={handleChange} />
 
-          {step === 2 && (
-            <>
-              <div className="signup-group">
-                <label>Date of Birth</label>
-                <input
-                  name="Dob"
-                  value={formData.Dob}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="signup-group">
-                <label>Age</label>
-                <input
-                  name="age"
-                  value={formData.age}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="signup-group">
-                <label>Gender</label>
-
-                <select
-                  name="Gender"
-                  value={formData.Gender}
-                  onChange={handleChange}
-                >
+                <select name="Gender" onChange={handleChange}>
                   <option value="">Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
                 </select>
 
-              </div>
+                <div className="btn-group">
+                  <button type="button" onClick={prevStep}>Back</button>
+                  <button type="button" onClick={nextStep}>Continue</button>
+                </div>
+              </>
+            )}
 
-              <div className="btn-group">
+            {/* STEP 3 */}
+            {step === 3 && (
+              <>
+                <input name="Address" placeholder="Address" onChange={handleChange} />
+                <input name="City" placeholder="City" onChange={handleChange} />
+                <input name="State" placeholder="State" onChange={handleChange} />
+                <input name="Country" placeholder="Country" onChange={handleChange} />
+                <input name="Pincode" placeholder="Pincode" onChange={handleChange} />
 
-                <button
-                  type="button"
-                  onClick={prevStep}
-                >
-                  Back
-                </button>
+                <div className="btn-group">
+                  <button type="button" onClick={prevStep}>Back</button>
+                  <button type="submit">
+                    {loading ? "Creating..." : "Create Account"}
+                  </button>
+                </div>
+              </>
+            )}
 
-                <button
-                  type="button"
-                  onClick={nextStep}
-                >
-                  Next
-                </button>
+          </form>
 
-              </div>
-            </>
-          )}
+          {error && <p className="error">{error}</p>}
 
-          {/* STEP 3 */}
-
-          {step === 3 && (
-            <>
-              <div className="signup-group">
-                <label>Address</label>
-                <input
-                  name="Address"
-                  value={formData.Address}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="signup-group">
-                <label>City</label>
-                <input
-                  name="City"
-                  value={formData.City}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="signup-group">
-                <label>State</label>
-                <input
-                  name="State"
-                  value={formData.State}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="signup-group">
-                <label>Country</label>
-                <input
-                  name="Country"
-                  value={formData.Country}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="signup-group">
-                <label>Pincode</label>
-                <input
-                  name="Pincode"
-                  value={formData.Pincode}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="btn-group">
-
-                <button
-                  type="button"
-                  onClick={prevStep}
-                >
-                  Back
-                </button>
-
-                <button
-                  type="submit"
-                  className="signup-btn"
-                >
-                  {loading ? "Creating..." : "Submit"}
-                </button>
-
-              </div>
-            </>
-          )}
-
-        </form>
-
-        {error && (
-          <p className="error-text">
-            {error}
-          </p>
-        )}
-
+        </div>
       </div>
     </div>
   );

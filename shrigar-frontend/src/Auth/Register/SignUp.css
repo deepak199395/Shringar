@@ -1,69 +1,141 @@
-.signup-wrapper{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:linear-gradient(135deg,#00c6ff,#0072ff);
-  font-family:Arial;
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial;
 }
 
-.signup-card{
-  width:420px;
-  background:#fff;
-  padding:30px;
-  border-radius:10px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+/* Container */
+.signup-container {
+  display: flex;
+  height: 100vh;
 }
 
-.step-indicator{
-  margin-bottom:20px;
-  text-align:center;
-  font-weight:bold;
+/* LEFT IMAGE */
+.signup-left {
+  flex: 1;
+  background: url("../../assets/images/ChatGPT.png") no-repeat center;
+  background-size: cover;
+  position: relative;
 }
 
-.signup-group{
-  display:flex;
-  flex-direction:column;
-  margin-bottom:15px;
+/* Overlay */
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  padding: 20px;
 }
 
-.signup-group label{
-  margin-bottom:5px;
-  font-weight:600;
+/* RIGHT */
+.signup-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f7fa;
 }
 
-.signup-group input{
-  padding:10px;
-  border:1px solid #ccc;
-  border-radius:6px;
+/* CARD */
+.signup-card {
+  width: 350px;
+  padding: 30px;
+  border-radius: 15px;
+
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(15px);
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-.signup-btn{
-  width:100%;
-  padding:12px;
-  background:#0072ff;
-  color:white;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
+/* Titles */
+.signup-card h2 {
+  text-align: center;
 }
 
-.btn-group{
-  display:flex;
-  justify-content:space-between;
+.signup-card h3 {
+  text-align: center;
+  margin-bottom: 15px;
 }
 
-.btn-group button{
-  padding:10px 20px;
-  border:none;
-  background:#0072ff;
-  color:white;
-  border-radius:6px;
-  cursor:pointer;
+/* Progress */
+.progress-bar {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
 }
-.signup-group select{
-  padding:10px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  font-size:14px;
+
+.step {
+  flex: 1;
+  height: 5px;
+  background: #ddd;
+  border-radius: 5px;
+}
+
+.step.active {
+  background: #ffd814;
+}
+
+/* Inputs */
+.signup-card input,
+.signup-card select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Buttons */
+.signup-card button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: #ffd814;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Button group */
+.btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-group button {
+  flex: 1;
+}
+
+/* Error */
+.error {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .signup-container {
+    flex-direction: column;
+  }
+
+  .signup-left {
+    height: 40%;
+  }
+
+  .signup-right {
+    height: 60%;
+  }
 }
