@@ -13,61 +13,82 @@ const Orders = () => {
   const { orders, loading } = useSelector((state) => state.order);
   const { user, isSignIn } = useSelector((state) => state.auth);
 
-  /* ✅ Redirect if not logged in */
+  /* Redirect if not logged in */
   useEffect(() => {
     if (!isSignIn) {
       navigate("/signin");
     }
   }, [isSignIn, navigate]);
 
-  /* ✅ Fetch orders */
+  /* Fetch Orders */
   useEffect(() => {
     if (user?.id || user?._id) {
       dispatch(fetchOrdersRequest(user?.id || user?._id));
     }
   }, [dispatch, user]);
 
-  /* ✅ Filter only logged-in user orders */
+  /* Filter user orders */
   const userOrders = orders.filter(
     (order) => order.userId === user?.id || order.userId === user?._id
   );
 
-  if (loading) return <p>Loading orders...</p>;
+  if (loading) return <p className="loading">Loading orders...</p>;
 
   return (
     <>
       <Header />
 
       <div className="orders-page">
-        <h2>My Orders</h2>
+        <h2 className="page-title">My Orders</h2>
 
         {userOrders.length === 0 ? (
           <p>No orders found</p>
         ) : (
           userOrders.map((order) => (
             <div key={order._id} className="order-card">
-              
-              <div className="order-header">
-                <p><b>Order ID:</b> {order._id}</p>
-                <p><b>Status:</b> {order.orderStatus}</p>
-                <p><b>Total:</b> ₹{order.totalAmount}</p>
-                <p>
-                  <b>Date:</b>{" "}
-                  {new Date(order.createdAt).toLocaleString()}
-                </p>
+
+              {/* TOP SECTION */}
+              <div className="order-top">
+                <div>
+                  <p className="delivery-text">
+                    Delivery by{" "}
+                    <b>
+                      {new Date(order.createdAt).toDateString()}
+                    </b>
+                  </p>
+                  <p className="track-link">Track & manage order</p>
+                </div>
+
+                <div className="success-icon">✔</div>
               </div>
 
+              {/* ITEMS */}
               {order.items.map((item, index) => (
                 <div key={index} className="order-item">
                   <img src={item.image} alt={item.productName} />
 
-                  <div>
+                  <div className="item-info">
                     <h4>{item.productName}</h4>
                     <p>Qty: {item.qty}</p>
-                    <p>Price: ₹{item.priceAfterDiscount}</p>
+                    <p>₹{item.priceAfterDiscount}</p>
                   </div>
                 </div>
               ))}
+
+              {/* FOOTER */}
+              <div className="order-footer">
+                <p><b>Order ID:</b> {order._id}</p>
+                <p><b>Status:</b> {order.orderStatus}</p>
+                <p><b>Total:</b> ₹{order.totalAmount}</p>
+              </div>
+
+              {/* BUTTON */}
+              <button
+                className="continue-btn"
+                onClick={() => navigate("/")}
+              >
+                Continue Shopping
+              </button>
 
             </div>
           ))
