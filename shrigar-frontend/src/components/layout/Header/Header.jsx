@@ -33,6 +33,8 @@ const Header = () => {
 
         <Link to="/">Home</Link>
         <Link to="/shop">Shop</Link>
+        <Link to="/orders">MyOrder</Link>
+
 
         {/* SEARCH BAR */}
         <div className="search-box">
@@ -99,6 +101,7 @@ const Header = () => {
 
         <Link to="/" onClick={closeMenu}>Home</Link>
         <Link to="/shop" onClick={closeMenu}>Shop</Link>
+
 
         <Link to="/cart" className="cart-link" onClick={closeMenu}>
           🛒 Cart
