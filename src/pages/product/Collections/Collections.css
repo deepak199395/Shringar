@@ -1,0 +1,83 @@
+/* ===============================
+   COLLECTION SECTION
+================================ */
+.collection-section {
+  padding: 40px 20px;
+  background: #fff;
+}
+
+/* Horizontal scroll container */
+.collection-scroll {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.collection-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Individual card */
+.collection-circle-card {
+  flex: 0 0 auto;
+  text-align: center;
+}
+
+/* Circle */
+.collection-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #000;
+  background: #f4e6dc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Image inside circle */
+.collection-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Title */
+.collection-title {
+  margin-top: 12px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: #000;
+  text-transform: uppercase;
+}
+
+/* ===============================
+   TABLET
+================================ */
+@media (max-width: 768px) {
+  .collection-circle {
+    width: 120px;
+    height: 120px;
+  }
+
+  .collection-title {
+    font-size: 13px;
+  }
+}
+
+/* ===============================
+   MOBILE
+================================ */
+@media (max-width: 480px) {
+  .collection-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  .collection-title {
+    font-size: 12px;
+  }
+}

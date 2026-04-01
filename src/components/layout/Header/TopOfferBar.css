@@ -1,0 +1,31 @@
+/* ===============================
+   TOP OFFER BAR
+================================ */
+.top-offer-bar {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  letter-spacing: 1px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.offer-text {
+  text-align: center;
+}
+
+.offer-subtext {
+  font-weight: 400;
+  text-transform: lowercase;
+  margin-left: 4px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .top-offer-bar {
+    font-size: 11px;
+    padding: 0 12px;
+  }
+}

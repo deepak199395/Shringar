@@ -1,0 +1,101 @@
+/* ===============================
+   SHOP BY BUDGET
+================================ */
+.budget-section {
+  padding: 60px 20px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.budget-heading {
+  font-size: 28px;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+  font-weight: 500;
+  color: #000;
+}
+
+/* ===============================
+   GRID
+================================ */
+.budget-grid {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* ===============================
+   CARD
+================================ */
+.budget-card {
+  width: 200px;
+  height: 200px;
+  border: 4px solid #f6a192;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.budget-card:hover {
+  background: #fdf2ef;
+}
+
+/* ===============================
+   TEXT
+================================ */
+.budget-label {
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: #000;
+  margin-bottom: 12px;
+}
+
+.budget-price {
+  font-size: 36px;
+  font-weight: 500;
+  color: #000;
+}
+
+/* ===============================
+   TABLET
+================================ */
+@media (max-width: 992px) {
+  .budget-card {
+    width: 180px;
+    height: 180px;
+  }
+
+  .budget-price {
+    font-size: 32px;
+  }
+}
+
+/* ===============================
+   MOBILE
+================================ */
+@media (max-width: 576px) {
+  .budget-section {
+    padding: 60px 20px;
+  }
+
+  .budget-grid {
+    gap: 24px;
+  }
+
+  .budget-card {
+    width: 160px;
+    height: 160px;
+  }
+
+  .budget-price {
+    font-size: 28px;
+  }
+
+  .budget-heading {
+    font-size: 22px;
+  }
+}
