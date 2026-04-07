@@ -1,0 +1,65 @@
+.productPage {
+  display: flex;
+  gap: 40px;
+  padding: 40px;
+}
+
+/* LEFT */
+.imageSection {
+  display: flex;
+  gap: 20px;
+}
+
+.thumbnailList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.thumbnailList img {
+  width: 60px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+}
+
+.thumbnailList img.active {
+  border: 2px solid black;
+}
+
+.mainImage img {
+  width: 400px;
+}
+
+/* RIGHT */
+.detailsSection {
+  max-width: 400px;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.oldPrice {
+  text-decoration: line-through;
+  margin-left: 10px;
+  color: gray;
+}
+
+.addBtn {
+  width: 100%;
+  padding: 12px;
+  background: #8a6d2f;
+  color: white;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.wishBtn {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #8a6d2f;
+  margin-top: 10px;
+  cursor: pointer;
+}

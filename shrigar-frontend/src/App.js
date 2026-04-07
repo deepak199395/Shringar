@@ -17,6 +17,8 @@ import Shop from './components/layout/Header/Shop';
 import TrackPackage from './components/layout/Header/SubHeader/TrackPackage/TrackPackage';
 import ReturnExchange from './components/layout/Header/SubHeader/Return&Exchange/ReturnExchange';
 import ContactUs from './components/layout/Header/SubHeader/ContactUs/ContactUs';
+import Account from './components/layout/Header/SubHeader/Account/Account';
+import ProductDetails from './components/layout/Header/ProductDetails';
 const App = () => {
   return (
     <>
@@ -39,7 +41,9 @@ const App = () => {
       <Route path='/track-order' element={<TrackPackage/>}/>
       <Route path='/returns' element={<ReturnExchange/>}/>
       <Route path='/contact' element={<ContactUs/>}/>
-
+      <Route path='/account' element={<Account/>}/>
+      <Route path='/product/:id' element={<ProductDetails/>}/>
+   
 
       </Routes>
     </BrowserRouter>

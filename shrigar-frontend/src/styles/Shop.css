@@ -1,0 +1,30 @@
+.MainContainer {
+  padding: 20px;
+}
+
+.CardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  width: 220px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.card img {
+  width: 100%;
+}
+
+.price {
+  font-weight: bold;
+}
+
+.oldPrice {
+  text-decoration: line-through;
+  margin-left: 5px;
+  color: gray;
+}
