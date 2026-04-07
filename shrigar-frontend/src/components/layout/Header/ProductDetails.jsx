@@ -10,10 +10,9 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
 
-  useEffect(() => {
-    fetchProduct();
-  }, [id]);
 
+
+ useEffect(() => {
   const fetchProduct = async () => {
     try {
       const res = await fetch("https://shrigaar.com/pyFastApi/v1/product/all");
@@ -28,6 +27,9 @@ const ProductDetails = () => {
       console.error(err);
     }
   };
+
+  fetchProduct();
+}, [id]);
 
   if (!product) return <p>Loading...</p>;
 
