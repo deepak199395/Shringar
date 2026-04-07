@@ -3,20 +3,26 @@
 }
 
 .CardContainer {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
 .card {
-  width: 220px;
   border: 1px solid #ddd;
   padding: 10px;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.03);
 }
 
 .card img {
   width: 100%;
+  height: 250px;
+  object-fit: cover;
 }
 
 .price {
@@ -27,4 +33,22 @@
   text-decoration: line-through;
   margin-left: 5px;
   color: gray;
+}
+
+/* 📱 MOBILE */
+@media (max-width: 600px) {
+  .CardContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card img {
+    height: 180px;
+  }
+}
+
+/* 📱 TABLET */
+@media (max-width: 1024px) {
+  .CardContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
