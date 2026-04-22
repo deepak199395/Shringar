@@ -1,37 +1,41 @@
- .account-container {
+.account-container {
   min-height: 100vh;
-  background: #f5f6fa;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: #f3f3f3;
+  padding: 40px;
 }
 
-.account-card {
+.account-heading {
+  font-size: 28px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.account-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.account-box {
   background: #fff;
-  padding: 30px;
-  width: 400px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.account-title {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+.account-box h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
 }
 
-.account-info p {
-  margin: 8px 0;
-  font-size: 15px;
+.account-box p {
   color: #555;
+  font-size: 14px;
 }
 
-.account-info strong {
-  color: #000;
-}
-
-
-
-.logout-btn:hover {
-  background: #d9363e;
+.account-box:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-5px);
 }

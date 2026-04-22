@@ -39,7 +39,7 @@ const Orders = () => {
       <Header />
 
       <div className="orders-page">
-        <h2 className="page-title">My Orders</h2>
+        <h2 className="page-title">My Orders2</h2>
 
         {userOrders.length === 0 ? (
           <p>No orders found</p>

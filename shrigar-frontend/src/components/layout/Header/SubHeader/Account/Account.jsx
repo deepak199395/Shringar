@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import "./Account.css";
 
 const Account = () => {
-
   const { user, isSignIn } = useSelector((state) => state.auth);
 
   if (!isSignIn || !user) {
@@ -16,24 +15,41 @@ const Account = () => {
 
   return (
     <div className="account-container">
-      <div className="account-card">
-        <h1 className="account-title">My Account</h1>
+      <h1 className="account-heading">Your Account</h1>
 
-        <div className="account-info">
-          <p><strong>Full Name:</strong> {user.FullName}</p>
-          <p><strong>Email:</strong> {user.Email}</p>
-          <p><strong>Phone:</strong> {user.phoneNumber}</p>
-          <p><strong>Gender:</strong> {user.Gender}</p>
-          <p><strong>Age:</strong> {user.age}</p>
-          <p><strong>DOB:</strong> {user.Dob}</p>
-          <p><strong>Address:</strong> {user.Address}</p>
-          <p><strong>City:</strong> {user.City}</p>
-          <p><strong>State:</strong> {user.State}</p>
-          <p><strong>Pincode:</strong> {user.Pincode}</p>
-          <p><strong>Country:</strong> {user.Country}</p>
+      <div className="account-grid">
+        
+        <div className="account-box">
+          <h3>Your Orders</h3>
+          <p>Track, return or buy again</p>
         </div>
 
-       
+        <div className="account-box">
+          <h3>Login & Security</h3>
+          <p>Edit login, name and mobile</p>
+        </div>
+
+        <div className="account-box">
+          <h3>Your Addresses</h3>
+          <p>Edit delivery addresses</p>
+        </div>
+
+        <div className="account-box">
+          <h3>Payment Options</h3>
+          <p>Add or edit payment methods</p>
+        </div>
+
+        <div className="account-box">
+          <h3>Contact Us</h3>
+          <p>Customer support</p>
+        </div>
+
+        <div className="account-box">
+          <h3>User Details</h3>
+          <p>{user.FullName}</p>
+          <p>{user.Email}</p>
+        </div>
+
       </div>
     </div>
   );
