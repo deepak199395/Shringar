@@ -10,10 +10,8 @@ import {
 } from "../authSlice";
 
 /* LOGIN */
-
 function* loginSaga(action) {
   try {
-
     const response = yield call(
       axios.post,
       "https://api.shrigaar.com/api/v1/shringar/User/login/api66",
@@ -21,14 +19,12 @@ function* loginSaga(action) {
     );
 
     if (response.data.success) {
-
       const user = response.data.user;
 
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(user));
 
       yield put(loginSuccess(user));
-
     }
 
   } catch (error) {
@@ -37,32 +33,29 @@ function* loginSaga(action) {
 }
 
 /* REGISTER */
-
 function* registerSaga(action) {
-
   try {
-
-    yield call(
+    const response = yield call(
       axios.post,
       "https://api.shrigaar.com/api/v1/shringar/User/registerUser/api61",
       action.payload
     );
 
-    yield put(registerSuccess());
-
-    alert("User Registered Successfully");
+    if (response.data.success) {
+      yield put(registerSuccess()); // ✅ triggers navigation
+    }
 
   } catch (error) {
-
-    yield put(registerFailure("Registration failed"));
-
+    yield put(
+      registerFailure(
+        error.response?.data?.message || "Registration failed"
+      )
+    );
   }
-
 }
 
+/* WATCHER */
 export function* watchAuthSaga() {
-
   yield takeLatest(loginRequest.type, loginSaga);
   yield takeLatest(registerRequest.type, registerSaga);
-
 }

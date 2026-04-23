@@ -5,8 +5,9 @@ const storedUser = localStorage.getItem("user");
 const initialState = {
   user: storedUser ? JSON.parse(storedUser) : null,
   isSignIn: storedUser ? true : false,
+  isRegistered: false, // ✅ IMPORTANT
   loading: false,
-  error: null
+  error: null,
 };
 
 const authSlice = createSlice({
@@ -43,11 +44,16 @@ const authSlice = createSlice({
 
     registerSuccess: (state) => {
       state.loading = false;
+      state.isRegistered = true; // ✅ KEY
     },
 
     registerFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    },
+
+    resetRegisterState: (state) => {
+      state.isRegistered = false;
     },
 
     /* LOGOUT */
@@ -58,9 +64,8 @@ const authSlice = createSlice({
 
       localStorage.removeItem("user");
       localStorage.removeItem("token");
-    }
-
-  }
+    },
+  },
 });
 
 export const {
@@ -70,7 +75,8 @@ export const {
   registerRequest,
   registerSuccess,
   registerFailure,
-  logout
+  resetRegisterState,
+  logout,
 } = authSlice.actions;
 
 export default authSlice.reducer;
