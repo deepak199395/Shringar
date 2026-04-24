@@ -107,7 +107,7 @@ const Checkout = () => {
 
     const payload = {
       userId: user?.id,
-      email: user?.email,
+      email: user?.Email,
       items,
       address,
       totalAmount,
@@ -116,13 +116,13 @@ const Checkout = () => {
     };
     console.log("🟢 FRONTEND DEBUG START");
     console.log("User object:", user);
-    console.log("User email:", user?.email);
+    console.log("User email:", user?.Email);
     console.log("Payload:", payload);
     console.log("🟢 FRONTEND DEBUG END");
 
     dispatch(createOrderRequest(payload));
   };
-  console.log("USER EMAIL:", user?.email);
+  console.log("USER EMAIL:", user?.Email);
   if (!cartItems.length) {
     return <p className="status-text">No items to checkout</p>;
   }
