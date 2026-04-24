@@ -44,7 +44,7 @@ function* registerSaga(action) {
 
     yield call(
       axios.post,
-      "https://api.shrigaar.com/api/v1/shringar/User/registerUser/api61",
+      "https://www.shrigaar.com/api/v1/shringar/User/registerUser/api61",
       action.payload
     );
 
