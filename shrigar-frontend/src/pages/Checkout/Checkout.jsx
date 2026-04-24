@@ -115,6 +115,7 @@ const Checkout = () => {
 
     const payload = {
       userId: user?.id,
+      email: user?.email,
       items,
       address,
       totalAmount,
