@@ -16,7 +16,7 @@ function* loginSaga(action) {
 
     const response = yield call(
       axios.post,
-      "https://api.shrigaar.com/api/v1/shringar/User/login/api66",
+      "https://www.shrigaar.com/api/v1/shringar/User/login/api66",
       action.payload
     );
 

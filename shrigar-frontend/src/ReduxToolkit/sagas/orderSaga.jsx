@@ -11,7 +11,7 @@ function* createOrderSaga(action) {
 
     const response = yield call(
       axios.post,
-      "https://api.shrigaar.com/api/v1/shrigar/order/create/api57",
+      "https://www.shrigaar.com/api/v1/shrigar/order/create/api57",
       action.payload
     );
 

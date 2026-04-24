@@ -11,7 +11,7 @@ function* fetchOrdersSaga(action) {
 
     const response = yield call(
       axios.get,
-      "https://api.shrigaar.com/api/v1/shrigar/order/list/api58"
+      "https://www.shrigaar.com/api/v1/shrigar/order/list/api58"
     );
 
     const allOrders = response.data.orders;
