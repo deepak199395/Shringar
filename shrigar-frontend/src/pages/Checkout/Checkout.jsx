@@ -9,18 +9,14 @@ import PhoneAuthModal from "../../CustomComponents/PhoneAuthModal";
 import "./Checkout.css";
 
 const Checkout = () => {
-
   const { cartItems } = useCart();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { user, isSignIn } = useSelector((state) => state.auth);
   const { success } = useSelector((state) => state.order);
-
   const [showOtpModal, setShowOtpModal] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [showModal, setShowModal] = useState(false);
-
   const [paymentMethod, setPaymentMethod] = useState("COD");
 
   /* REDIRECT IF NOT LOGGED IN */
@@ -55,7 +51,7 @@ const Checkout = () => {
     addressLine: user?.Address || "",
     city: user?.City || "",
     state: user?.State || "",
-    pincode: user?.Pincode || ""
+    pincode: user?.Pincode || "",
   };
 
   /* TOTAL */
@@ -67,12 +63,10 @@ const Checkout = () => {
           ? item.originalPrice -
             (item.originalPrice * item.discountPercentage) / 100
           : item.originalPrice),
-    0
+    0,
   );
-
   /* STEP 1 → OPEN OTP MODAL */
   const handlePlaceOrder = () => {
-
     if (
       !address.fullName ||
       !address.phone ||
@@ -90,10 +84,8 @@ const Checkout = () => {
 
   /* STEP 2 → AFTER OTP VERIFIED → PLACE ORDER */
   const handleVerifySuccess = (token) => {
-
     console.log("Firebase Token:", token);
-
-    setShowOtpModal(false); // ✅ close modal
+    setShowOtpModal(false);
 
     const items = cartItems.map((item) => ({
       productId: item._id,
@@ -110,7 +102,7 @@ const Checkout = () => {
             (item.originalPrice * item.discountPercentage) / 100
           : item.originalPrice,
       inStock: item.inStock,
-      collectionId: item.collectionId
+      collectionId: item.collectionId,
     }));
 
     const payload = {
@@ -120,12 +112,17 @@ const Checkout = () => {
       address,
       totalAmount,
       paymentMethod,
-      firebaseToken: token // 🔥 important
+      firebaseToken: token,
     };
+    console.log("🟢 FRONTEND DEBUG START");
+    console.log("User object:", user);
+    console.log("User email:", user?.email);
+    console.log("Payload:", payload);
+    console.log("🟢 FRONTEND DEBUG END");
 
     dispatch(createOrderRequest(payload));
   };
-
+  console.log("USER EMAIL:", user?.email);
   if (!cartItems.length) {
     return <p className="status-text">No items to checkout</p>;
   }
@@ -135,17 +132,28 @@ const Checkout = () => {
       <Header />
 
       <div className="checkout-page">
-
         <h2>Checkout</h2>
 
         {/* ADDRESS */}
         <div className="address-box">
-          <p><b>Name:</b> {address.fullName}</p>
-          <p><b>Phone:</b> {address.phone}</p>
-          <p><b>Address:</b> {address.addressLine}</p>
-          <p><b>City:</b> {address.city}</p>
-          <p><b>State:</b> {address.state}</p>
-          <p><b>Pincode:</b> {address.pincode}</p>
+          <p>
+            <b>Name:</b> {address.fullName}
+          </p>
+          <p>
+            <b>Phone:</b> {address.phone}
+          </p>
+          <p>
+            <b>Address:</b> {address.addressLine}
+          </p>
+          <p>
+            <b>City:</b> {address.city}
+          </p>
+          <p>
+            <b>State:</b> {address.state}
+          </p>
+          <p>
+            <b>Pincode:</b> {address.pincode}
+          </p>
         </div>
 
         {/* PAYMENT */}
@@ -166,14 +174,17 @@ const Checkout = () => {
         {/* ORDER SUMMARY */}
         {cartItems.map((item) => (
           <div key={item._id} className="checkout-item">
-            <span>{item.productName} × {item.qty}</span>
             <span>
-              ₹{Math.round(
+              {item.productName} × {item.qty}
+            </span>
+            <span>
+              ₹
+              {Math.round(
                 item.qty *
                   (item.discountPercentage > 0
                     ? item.originalPrice -
                       (item.originalPrice * item.discountPercentage) / 100
-                    : item.originalPrice)
+                    : item.originalPrice),
               )}
             </span>
           </div>
@@ -184,7 +195,8 @@ const Checkout = () => {
         {/* NOTE */}
         <div className="note-box">
           <p>
-            <b>Note:</b><br />
+            <b>Note:</b>
+            <br />
             Currently we support <b>Cash on Delivery</b> only.
           </p>
         </div>
@@ -196,7 +208,6 @@ const Checkout = () => {
         >
           Place Order
         </button>
-
       </div>
 
       {/* OTP MODAL */}
@@ -210,18 +221,14 @@ const Checkout = () => {
       {showModal && (
         <div className="order-modal">
           <div className="order-modal-content">
-
             <div className="loader"></div>
 
             <h2>Processing your order...</h2>
             <h3>{countdown}</h3>
 
             {countdown === 0 && (
-              <h2 className="success-text">
-                🎉 Order placed successfully!
-              </h2>
+              <h2 className="success-text">🎉 Order placed successfully!</h2>
             )}
-
           </div>
         </div>
       )}
