@@ -43,16 +43,14 @@ export const exitScreen = () => {
 
     if (!sessionId) return;
 
-    const url =
-      "https://www.shrigaar.com/api/v1/shringar/Screens/exit/api68";
-
     const data = JSON.stringify({ sessionId });
 
-    navigator.sendBeacon(url, data);
+    navigator.sendBeacon(
+      "https://www.shrigaar.com/api/v1/shringar/Screens/exit/api68",
+      new Blob([data], { type: "application/json" }) 
+    );
 
-    console.log("🚪 Exit tracked");
-
-  } catch (err) {
-    console.error("❌ Exit error:", err);
+  } catch (error) {
+    console.error("Exit tracking error:", error);
   }
 };
