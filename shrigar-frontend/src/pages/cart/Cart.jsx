@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/layout/Header/Header";
 import { useCart } from "../../components/context/CartContext";
 import "./Cart.css";
 import { Link } from "react-router-dom";
+import { trackScreen } from "../../utils/analytics";
+
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQty } = useCart();
@@ -13,6 +15,11 @@ const Cart = () => {
 
   const [pincode, setPincode] = useState("");
   const [deliveryMsg, setDeliveryMsg] = useState("");
+
+   // 🟢 TRACK CART SCREEN
+  useEffect(() => {
+    trackScreen("VIEW_CART", "isMyCart");
+  }, []);
 
   const totalAmount = cartItems.reduce(
     (sum, item) =>
@@ -33,6 +40,8 @@ const Cart = () => {
       const discountAmount = totalAmount * 0.1;
       setDiscount(discountAmount);
       setMessage("✅ Coupon Applied!");
+      // 🟢 TRACK COUPON APPLY
+      trackScreen("APPLY_COUPON", "isCoupon");
     } else {
       setDiscount(0);
       setMessage("❌ Invalid Coupon");
@@ -51,6 +60,8 @@ const Cart = () => {
     } else {
       setDeliveryMsg("⚠️ Delivery may take 5-7 days");
     }
+    // 🟢 TRACK PINCODE CHECK
+    trackScreen("CHECK_PINCODE", "isPincode");
   };
 
   if (!cartItems.length) {
@@ -149,7 +160,9 @@ const Cart = () => {
               <span>₹{Math.round(finalAmount)}</span>
             </div>
 
-            <Link to="/checkout">
+            <Link to="/checkout" onClick={()=>{
+               trackScreen("START_CHECKOUT", "isCheckoutStart");
+              }}>
               <button className="checkout-btn">Place Order</button>
             </Link>
 

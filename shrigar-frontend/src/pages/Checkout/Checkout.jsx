@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createOrderRequest } from "../../ReduxToolkit/orderSlice";
 import { useNavigate } from "react-router-dom";
 import PhoneAuthModal from "../../CustomComponents/PhoneAuthModal";
+import { trackScreen } from "../../utils/analytics";
 import "./Checkout.css";
 
 const Checkout = () => {
@@ -26,6 +27,10 @@ const Checkout = () => {
     }
   }, [isSignIn, navigate]);
 
+  /* 🟢 TRACK CHECKOUT SCREEN */
+  useEffect(() => {
+    trackScreen("CHECKOUT_VIEW", "isCheckout");
+  }, []);
   /* ORDER SUCCESS MODAL */
   useEffect(() => {
     if (success) {
@@ -78,13 +83,16 @@ const Checkout = () => {
       alert("Your address is incomplete. Please update your profile.");
       return;
     }
-
+// 🔥 TRACK CLICK
+    trackScreen("CLICK_PLACE_ORDER", "isPlaceOrderClick");
     setShowOtpModal(true);
   };
 
   /* STEP 2 → AFTER OTP VERIFIED → PLACE ORDER */
   const handleVerifySuccess = (token) => {
     console.log("Firebase Token:", token);
+     // 🔥 TRACK OTP SUCCESS
+    trackScreen("OTP_VERIFIED", "isOtpSuccess");
     setShowOtpModal(false);
 
     const items = cartItems.map((item) => ({

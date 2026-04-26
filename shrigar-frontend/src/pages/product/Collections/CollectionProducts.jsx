@@ -6,6 +6,8 @@ import { useCart } from "../../../components/context/CartContext";
 import { useDispatch, useSelector } from "react-redux";
 import { productRequest } from "../../../ReduxToolkit/productSlice";
 import CustomModal from "../../../CustomComponents/CustomModal";
+import { trackScreen } from "../../../utils/analytics";
+
 
 const CollectionProducts = () => {
   const { collectionId } = useParams();
@@ -17,6 +19,11 @@ const CollectionProducts = () => {
   const [expandedId, setExpandedId] = useState(null);
 
   const { products, loading } = useSelector((state) => state.products);
+
+    // 🟢 TRACK PRODUCT SCREEN
+  useEffect(()=>{
+    trackScreen("PRODUCT_LIST_VIEW", "isProductList",collectionId)
+  },[collectionId])
 
   useEffect(() => {
     if (collectionId) {
@@ -99,10 +106,15 @@ const CollectionProducts = () => {
                 </div>
 
                 {/* BUTTON */}
+                {/* 🔥 TRACK ADD TO CART */}
+
                 <button
                   className="add-to-cart-btn"
                   onClick={() => {
                     addToCart(item);
+                     // 🟢 TRACK EVENT
+                    trackScreen("ADD_TO_CART", "isAddToCart", item._id);
+
                     setPopupMessage("✅ Product added to cart!");
                     setShowPopup(true);
                   }}
