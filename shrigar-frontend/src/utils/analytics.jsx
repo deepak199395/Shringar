@@ -35,3 +35,24 @@ export const trackScreen = async (screen, screenKey, productId = null) => {
     console.error("❌ Tracking error:", error);
   }
 };
+
+// 🔴 EXIT SCREEN (NEW ADD)
+export const exitScreen = () => {
+  try {
+    const sessionId = localStorage.getItem("sessionId");
+
+    if (!sessionId) return;
+
+    const url =
+      "https://www.shrigaar.com/api/v1/shringar/Screens/exit/api68";
+
+    const data = JSON.stringify({ sessionId });
+
+    navigator.sendBeacon(url, data);
+
+    console.log("🚪 Exit tracked");
+
+  } catch (err) {
+    console.error("❌ Exit error:", err);
+  }
+};
