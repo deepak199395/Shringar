@@ -25,14 +25,20 @@ const SignIn = () => {
 
       const response = await axios.post(
         "https://www.shrigaar.com/api/v1/shringar/User/login/api66",
-        { Email, Password }
+        { Email, Password },
       );
 
       if (response.data.success) {
         const userData = response.data.user;
 
+        // ✅ Existing
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(userData));
+
+        // 🔥 ADD THIS (VERY IMPORTANT)
+        localStorage.setItem("userId", userData.id || userData._id);
+        localStorage.setItem("email", userData.Email || userData.email);
+        localStorage.setItem("phone", userData.phoneNumber || userData.phone);
 
         dispatch(loginSuccess(userData));
         navigate("/");
@@ -44,7 +50,6 @@ const SignIn = () => {
 
   return (
     <div className="login-container">
-
       {/* LEFT SIDE IMAGE */}
       <div className="login-left">
         <div className="overlay">
@@ -56,7 +61,6 @@ const SignIn = () => {
       {/* RIGHT SIDE FORM */}
       <div className="login-right">
         <div className="login-card">
-
           <h2>Sign In</h2>
 
           <form onSubmit={handleLogin}>
@@ -87,7 +91,6 @@ const SignIn = () => {
           <p className="create" onClick={() => navigate("/signup")}>
             Create Account
           </p>
-
         </div>
       </div>
     </div>
