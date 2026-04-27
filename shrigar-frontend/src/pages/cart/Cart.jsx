@@ -3,8 +3,7 @@ import Header from "../../components/layout/Header/Header";
 import { useCart } from "../../components/context/CartContext";
 import "./Cart.css";
 import { Link } from "react-router-dom";
-import { trackScreen } from "../../utils/analytics";
-
+import { trackScreen, trackAction } from "../../utils/analytics";
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQty } = useCart();
@@ -16,7 +15,7 @@ const Cart = () => {
   const [pincode, setPincode] = useState("");
   const [deliveryMsg, setDeliveryMsg] = useState("");
 
-   // 🟢 TRACK CART SCREEN
+  /* 🟢 TRACK CART SCREEN */
   useEffect(() => {
     trackScreen("VIEW_CART", "isMyCart");
   }, []);
@@ -40,8 +39,10 @@ const Cart = () => {
       const discountAmount = totalAmount * 0.1;
       setDiscount(discountAmount);
       setMessage("✅ Coupon Applied!");
-      // 🟢 TRACK COUPON APPLY
-      trackScreen("APPLY_COUPON", "isCoupon");
+
+      // 🔥 ACTION
+      trackAction("APPLY_COUPON");
+
     } else {
       setDiscount(0);
       setMessage("❌ Invalid Coupon");
@@ -60,8 +61,9 @@ const Cart = () => {
     } else {
       setDeliveryMsg("⚠️ Delivery may take 5-7 days");
     }
-    // 🟢 TRACK PINCODE CHECK
-    trackScreen("CHECK_PINCODE", "isPincode");
+
+    // 🔥 ACTION
+    trackAction("CHECK_PINCODE");
   };
 
   if (!cartItems.length) {
@@ -76,7 +78,6 @@ const Cart = () => {
 
         {/* LEFT */}
         <div className="cart-left">
-
           <h2>My Cart</h2>
 
           {/* PINCODE */}
@@ -89,6 +90,7 @@ const Cart = () => {
             />
             <button onClick={checkPincode}>Check</button>
           </div>
+
           <p className="delivery-msg">{deliveryMsg}</p>
 
           {cartItems.map((item) => (
@@ -102,14 +104,40 @@ const Cart = () => {
 
                 <p className="price">₹{item.originalPrice}</p>
 
+                {/* 🔥 QTY TRACK */}
                 <div className="qty-box">
-                  <button onClick={() => updateQty(item._id, item.qty - 1)}>-</button>
+                  <button
+                    onClick={() => {
+                      updateQty(item._id, item.qty - 1);
+                      trackAction("DECREASE_QTY", item._id);
+                    }}
+                  >
+                    -
+                  </button>
+
                   <span>{item.qty}</span>
-                  <button onClick={() => updateQty(item._id, item.qty + 1)}>+</button>
+
+                  <button
+                    onClick={() => {
+                      updateQty(item._id, item.qty + 1);
+                      trackAction("INCREASE_QTY", item._id);
+                    }}
+                  >
+                    +
+                  </button>
                 </div>
 
+                {/* 🔥 REMOVE TRACK */}
                 <div className="cart-actions">
-                  <button onClick={() => removeFromCart(item._id)}>Remove</button>
+                  <button
+                    onClick={() => {
+                      removeFromCart(item._id);
+                      trackAction("REMOVE_FROM_CART", item._id);
+                    }}
+                  >
+                    Remove
+                  </button>
+
                   <button>Save for later</button>
                 </div>
 
@@ -120,7 +148,6 @@ const Cart = () => {
 
         {/* RIGHT */}
         <div className="cart-right">
-
           <div className="price-box">
 
             <h3>Price Details</h3>
@@ -160,14 +187,17 @@ const Cart = () => {
               <span>₹{Math.round(finalAmount)}</span>
             </div>
 
-            <Link to="/checkout" onClick={()=>{
-               trackScreen("START_CHECKOUT", "isCheckoutStart");
-              }}>
+            {/* 🔥 START CHECKOUT */}
+            <Link
+              to="/checkout"
+              onClick={() => {
+                trackAction("START_CHECKOUT");
+              }}
+            >
               <button className="checkout-btn">Place Order</button>
             </Link>
 
           </div>
-
         </div>
 
       </div>

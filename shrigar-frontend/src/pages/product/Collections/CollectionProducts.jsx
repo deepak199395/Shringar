@@ -6,8 +6,7 @@ import { useCart } from "../../../components/context/CartContext";
 import { useDispatch, useSelector } from "react-redux";
 import { productRequest } from "../../../ReduxToolkit/productSlice";
 import CustomModal from "../../../CustomComponents/CustomModal";
-import { trackScreen } from "../../../utils/analytics";
-
+import { trackScreen, trackAction } from "../../../utils/analytics";
 
 const CollectionProducts = () => {
   const { collectionId } = useParams();
@@ -20,10 +19,10 @@ const CollectionProducts = () => {
 
   const { products, loading } = useSelector((state) => state.products);
 
-    // 🟢 TRACK PRODUCT SCREEN
-  useEffect(()=>{
-    trackScreen("PRODUCT_LIST_VIEW", "isProductList",collectionId)
-  },[collectionId])
+  /* 🟢 TRACK PRODUCT LIST VIEW */
+  useEffect(() => {
+    trackScreen("PRODUCT_LIST_VIEW", "isProductList", collectionId);
+  }, [collectionId]);
 
   useEffect(() => {
     if (collectionId) {
@@ -55,6 +54,7 @@ const CollectionProducts = () => {
 
           return (
             <div className="product-card" key={item._id}>
+              
               <div className="product-image">
                 <img src={item.image} alt={item.productName} />
 
@@ -84,11 +84,14 @@ const CollectionProducts = () => {
                 {item.description?.length > 80 && (
                   <span
                     className="see-more"
-                    onClick={() =>
+                    onClick={() => {
                       setExpandedId(
                         expandedId === item._id ? null : item._id
-                      )
-                    }
+                      );
+
+                      // 🔥 USER ENGAGEMENT
+                      trackAction("EXPAND_DESCRIPTION", item._id);
+                    }}
                   >
                     {expandedId === item._id ? "See less" : "See more"}
                   </span>
@@ -105,15 +108,14 @@ const CollectionProducts = () => {
                   )}
                 </div>
 
-                {/* BUTTON */}
-                {/* 🔥 TRACK ADD TO CART */}
-
+                {/* 🔥 ADD TO CART */}
                 <button
                   className="add-to-cart-btn"
                   onClick={() => {
                     addToCart(item);
-                     // 🟢 TRACK EVENT
-                    trackScreen("ADD_TO_CART", "isAddToCart", item._id);
+
+                    // ✅ ACTION (correct)
+                    trackAction("ADD_TO_CART", item._id);
 
                     setPopupMessage("✅ Product added to cart!");
                     setShowPopup(true);
@@ -121,6 +123,7 @@ const CollectionProducts = () => {
                 >
                   Add to Cart
                 </button>
+
               </div>
             </div>
           );
