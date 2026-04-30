@@ -24,7 +24,7 @@ const SignIn = () => {
       }
 
       const response = await axios.post(
-        "https://www.shrigaar.com/api/v1/shringar/User/login/api66",
+        "https://api.shrigaar.com/api/v1/shringar/User/login/api66",
         { Email, Password },
       );
 

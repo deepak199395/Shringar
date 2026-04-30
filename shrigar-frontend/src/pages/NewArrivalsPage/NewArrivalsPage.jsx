@@ -14,7 +14,7 @@ const NewArrivalsPage = () => {
   const fetchProducts = async () => {
     try {
       const res = await axios.get(
-        "https://www.shrigaar.com/api/v1/shringar/getAllNewArrivals/api72",
+        "https://api.shrigaar.com/api/v1/shringar/getAllNewArrivals/api72",
       );
       if (res.data.success) {
         setProducts(res.data.data);

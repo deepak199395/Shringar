@@ -38,7 +38,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        "https://www.shrigaar.com/api/v1/shringar/User/registerUser/api55",
+        "https://api.shrigaar.com/api/v1/shringar/User/registerUser/api55",
         formData,
       );
       navigate("/");

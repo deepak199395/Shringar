@@ -14,7 +14,7 @@ const NewArrivalsProductDetails = () => {
     const fetchSingleProduct = async () => {
       try {
         const res = await axios.get(
-          `https://www.shrigaar.com/api/v1/shringar/getSingleNewArrival/api73/${id}`
+          `https://api.shrigaar.com/api/v1/shringar/getSingleNewArrival/api73/${id}`
         );
 
         if (res.data.success) {

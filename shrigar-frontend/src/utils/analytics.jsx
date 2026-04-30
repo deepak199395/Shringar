@@ -1,5 +1,5 @@
 // 🔹 BASE URL
-const BASE_URL = "https://www.shrigaar.com/api/v1/shringar/Screens";
+const BASE_URL = "https://api.shrigaar.com/api/v1/shringar/Screens";
 
 // 🆔 GET OR CREATE SESSION
 const getSessionId = () => {
