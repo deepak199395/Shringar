@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./ProductDetails.css";
+import Header from "../../components/layout/Header/Header";
+import Footer from "../../components/layout/Footer/Footer";
 
 const NewArrivalsProductDetails = () => {
   const { id } = useParams();
@@ -31,6 +33,7 @@ const NewArrivalsProductDetails = () => {
 
   return (
     <div className="product-wrapper">
+      <Header/>
       <div className="product-page">
 
         {/* LEFT THUMBNAILS */}
@@ -82,6 +85,7 @@ const NewArrivalsProductDetails = () => {
           <button className="buy">BUY NOW</button>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };
