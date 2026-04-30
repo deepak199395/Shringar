@@ -20,6 +20,9 @@ import ContactUs from "./components/layout/Header/SubHeader/ContactUs/ContactUs"
 import Account from "./components/layout/Header/SubHeader/Account/Account";
 import ProductDetails from "./components/layout/Header/ProductDetails";
 import { exitScreen } from "./utils/analytics";
+import NewArrivalsPage from "./pages/NewArrivalsPage/NewArrivalsPage";
+import ProductCard from "./pages/NewArrivalsPage/ProductCard";
+import NewArrivalsProductDetails from "./pages/NewArrivalsPage/NewArrivalsProductDetails";
 const App = () => {
   
   // 🔴 GLOBAL EXIT TRACKING
@@ -67,6 +70,11 @@ const App = () => {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/account" element={<Account />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/NewArrivalsPage" element={<NewArrivalsPage />} />
+          <Route path="/ProductCard" element={<ProductCard />} />
+          <Route path="/NewArrivalsProductDetails/:id" element={<NewArrivalsProductDetails />} />
+
+
         </Routes>
       </BrowserRouter>
     </>
