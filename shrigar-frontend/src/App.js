@@ -16,15 +16,17 @@ import Orders from "./pages/Orders/Orders";
 import Shop from "./components/layout/Header/Shop";
 import TrackPackage from "./components/layout/Header/SubHeader/TrackPackage/TrackPackage";
 import ReturnExchange from "./components/layout/Header/SubHeader/Return&Exchange/ReturnExchange";
-import ContactUs from "./components/layout/Header/SubHeader/ContactUs/ContactUs";
 import Account from "./components/layout/Header/SubHeader/Account/Account";
 import ProductDetails from "./components/layout/Header/ProductDetails";
 import { exitScreen } from "./utils/analytics";
 import NewArrivalsPage from "./pages/NewArrivalsPage/NewArrivalsPage";
 import ProductCard from "./pages/NewArrivalsPage/ProductCard";
 import NewArrivalsProductDetails from "./pages/NewArrivalsPage/NewArrivalsProductDetails";
+import AboutUs from "./pages/Company/AboutUs";
+import ContactUs from "./pages/Company/ContactUs";
+import WhatsAppButton from "./pages/WhatsappBussines/WhatsAppButton";
+import Careers from "./pages/Company/Careers";
 const App = () => {
-  
   // 🔴 GLOBAL EXIT TRACKING
   useEffect(() => {
     const handleExit = () => {
@@ -67,16 +69,21 @@ const App = () => {
           <Route path="/shop" element={<Shop />} />
           <Route path="/track-order" element={<TrackPackage />} />
           <Route path="/returns" element={<ReturnExchange />} />
-          <Route path="/contact" element={<ContactUs />} />
           <Route path="/account" element={<Account />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/NewArrivalsPage" element={<NewArrivalsPage />} />
           <Route path="/ProductCard" element={<ProductCard />} />
-          <Route path="/NewArrivalsProductDetails/:id" element={<NewArrivalsProductDetails />} />
-
+          <Route
+            path="/NewArrivalsProductDetails/:id"
+            element={<NewArrivalsProductDetails />}
+          />
+          <Route path="/AboutUs" element={<AboutUs />} />
+          <Route path="/ContactUs" element={<ContactUs />} />
+          <Route path="/Careers" element={<Careers />} />
 
         </Routes>
       </BrowserRouter>
+      <WhatsAppButton />
     </>
   );
 };

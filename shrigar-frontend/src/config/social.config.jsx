@@ -23,9 +23,9 @@ export const SOCIAL_MEDIA = [
 
 export const FOOTER_LINKS = {
   company: [
-    { label: "About Us", path: "/about" },
-    { label: "Contact Us", path: "/contact" },
-    { label: "Careers", path: "/careers" }
+    { label: "About Us", path: "/AboutUs" },
+    { label: "Contact Us", path: "/ContactUs" },
+    { label: "Careers", path: "/Careers" }
   ],
   support: [
     { label: "FAQs", path: "/faqs" },
