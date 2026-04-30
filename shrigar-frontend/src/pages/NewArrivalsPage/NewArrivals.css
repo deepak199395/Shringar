@@ -98,3 +98,135 @@
   height: 200px;
   object-fit: cover;
 }
+/* 📱 MOBILE (max 768px) */
+@media (max-width: 768px) {
+
+  /* Product layout becomes vertical */
+  .product-container {
+    flex-direction: column;
+    margin: 20px;
+    gap: 15px;
+  }
+
+  /* Thumbnails horizontal scroll */
+  .thumbs {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 8px;
+  }
+
+  .thumb-img {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Main image full width */
+  .main-image img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+  }
+
+  /* Details full width */
+  .product-details {
+    max-width: 100%;
+  }
+
+  .product-details h2 {
+    font-size: 18px;
+  }
+
+  .price {
+    font-size: 18px;
+  }
+
+  /* Buttons full width */
+  .btn-cart,
+  .btn-buy {
+    width: 100%;
+    padding: 12px;
+  }
+
+  /* Grid becomes 2 columns */
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .card-img {
+    height: 160px;
+  }
+}
+
+/* 🖥️ LARGE SCREENS (1400px+) */
+@media (min-width: 1400px) {
+  .grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .card-img {
+    height: 220px;
+  }
+}
+
+/* 💻 LAPTOP (1024px - 1399px) */
+@media (max-width: 1399px) and (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 📱 TABLET (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .card-img {
+    height: 180px;
+  }
+}
+
+/* 📱 MOBILE (481px - 767px) */
+@media (max-width: 767px) and (min-width: 481px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .card {
+    padding: 8px;
+  }
+
+  .card-img {
+    height: 150px;
+  }
+
+  .product-name {
+    font-size: 14px;
+  }
+}
+
+/* 📱 SMALL MOBILE (≤480px) */
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .card {
+    padding: 8px;
+  }
+
+  .card-img {
+    height: 180px;
+  }
+
+  .product-name {
+    font-size: 14px;
+  }
+
+  .price {
+    font-size: 14px;
+  }
+}
