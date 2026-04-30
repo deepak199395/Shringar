@@ -2,7 +2,7 @@ import React from "react";
 import "./WhatsAppButton.css";
 
 const WhatsAppButton = () => {
-  const phoneNumber = "919876543210"; // 👉 replace with your number
+  const phoneNumber = "919322096941"; 
   const message = "Hi, I'm interested in your products";
 
   const handleClick = () => {
