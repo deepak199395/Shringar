@@ -1,0 +1,111 @@
+/* OVERLAY BACKGROUND */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s ease;
+  z-index: 999;
+}
+
+/* ACTIVE OVERLAY */
+.drawer-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* DRAWER PANEL */
+.drawer {
+  position: absolute;
+  top: 0;
+  right: -400px; /* hidden initially */
+  width: 350px;
+  height: 100%;
+  background: #fff;
+
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s ease;
+}
+
+/* SLIDE IN */
+.drawer.slide {
+  right: 0;
+}
+
+/* HEADER */
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.drawer-header button {
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* BODY */
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+/* ITEM */
+.drawer-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.drawer-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* ITEM TEXT */
+.drawer-item p {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+/* FOOTER */
+.drawer-footer {
+  padding: 15px;
+  border-top: 1px solid #eee;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 10px;
+  background: #0b5d66;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* HOVER EFFECT */
+.checkout-btn:hover {
+  background: #094c54;
+}
+
+/* 📱 MOBILE */
+@media (max-width: 480px) {
+  .drawer {
+    width: 100%;
+  }
+}

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
-
+import cartReducer from "../ReduxToolkit/cartSlice"
 import authReducer from "./authSlice";
 import collectionReducer from "./collectionSlice";
 import productReducer from "./productSlice";
@@ -15,7 +15,8 @@ const store = configureStore({
     auth: authReducer,
     collections: collectionReducer,
     products: productReducer,
-    order: orderReducer
+    order: orderReducer,
+    cart: cartReducer,
 
   },
 
