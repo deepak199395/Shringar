@@ -17,7 +17,12 @@
 .collection-scroll::-webkit-scrollbar {
   display: none;
 }
-
+.loader-wrapper {
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* Individual card */
 .collection-circle-card {
   flex: 0 0 auto;

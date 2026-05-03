@@ -74,7 +74,7 @@ const Checkout = () => {
           ? item.originalPrice -
             (item.originalPrice * item.discountPercentage) / 100
           : item.originalPrice),
-    0
+    0,
   );
 
   /* 🛒 STEP 1: CLICK PLACE ORDER */
@@ -148,12 +148,24 @@ const Checkout = () => {
 
         {/* 📍 ADDRESS */}
         <div className="address-box">
-          <p><b>Name:</b> {address.fullName}</p>
-          <p><b>Phone:</b> {address.phone}</p>
-          <p><b>Address:</b> {address.addressLine}</p>
-          <p><b>City:</b> {address.city}</p>
-          <p><b>State:</b> {address.state}</p>
-          <p><b>Pincode:</b> {address.pincode}</p>
+          <p>
+            <b>Name:</b> {address.fullName}
+          </p>
+          <p>
+            <b>Phone:</b> {address.phone}
+          </p>
+          <p>
+            <b>Address:</b> {address.addressLine}
+          </p>
+          <p>
+            <b>City:</b> {address.city}
+          </p>
+          <p>
+            <b>State:</b> {address.state}
+          </p>
+          <p>
+            <b>Pincode:</b> {address.pincode}
+          </p>
         </div>
 
         {/* 💳 PAYMENT */}
@@ -174,14 +186,17 @@ const Checkout = () => {
         {/* 🧾 ORDER SUMMARY */}
         {cartItems.map((item) => (
           <div key={item._id} className="checkout-item">
-            <span>{item.productName} × {item.qty}</span>
             <span>
-              ₹{Math.round(
+              {item.productName} × {item.qty}
+            </span>
+            <span>
+              ₹
+              {Math.round(
                 item.qty *
                   (item.discountPercentage > 0
                     ? item.originalPrice -
                       (item.originalPrice * item.discountPercentage) / 100
-                    : item.originalPrice)
+                    : item.originalPrice),
               )}
             </span>
           </div>
@@ -192,7 +207,8 @@ const Checkout = () => {
         {/* 📝 NOTE */}
         <div className="note-box">
           <p>
-            <b>Note:</b><br />
+            <b>Note:</b>
+            <br />
             Currently we support <b>Cash on Delivery</b> only.
           </p>
         </div>
@@ -223,9 +239,7 @@ const Checkout = () => {
             <h3>{countdown}</h3>
 
             {countdown === 0 && (
-              <h2 className="success-text">
-                🎉 Order placed successfully!
-              </h2>
+              <h2 className="success-text">🎉 Order placed successfully!</h2>
             )}
           </div>
         </div>
