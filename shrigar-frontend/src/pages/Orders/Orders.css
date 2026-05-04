@@ -1,4 +1,12 @@
+/* 🔥 PAGE LAYOUT */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .orders-page {
+  flex: 1;
   max-width: 900px;
   margin: auto;
   padding: 30px 15px;
@@ -9,7 +17,42 @@
   margin-bottom: 20px;
 }
 
-/* CARD */
+/* 🟡 EMPTY STATE */
+.empty-orders {
+  text-align: center;
+  margin-top: 80px;
+}
+
+.empty-icon {
+  font-size: 60px;
+  margin-bottom: 15px;
+}
+
+.empty-orders h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.empty-orders p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.shop-btn {
+  padding: 12px 25px;
+  background: linear-gradient(135deg, #c9a24d, #e5c06b);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.shop-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* 🧾 CARD */
 .order-card {
   background: #fff;
   border-radius: 10px;
@@ -18,7 +61,7 @@
   margin-bottom: 20px;
 }
 
-/* TOP SECTION */
+/* 🔝 TOP */
 .order-top {
   display: flex;
   justify-content: space-between;
@@ -31,7 +74,6 @@
 
 .delivery-text {
   font-size: 14px;
-  margin-bottom: 5px;
 }
 
 .track-link {
@@ -41,11 +83,11 @@
 }
 
 .success-icon {
-  font-size: 28px;
+  font-size: 26px;
   color: green;
 }
 
-/* ITEM */
+/* 📦 ITEM */
 .order-item {
   display: flex;
   gap: 15px;
@@ -54,33 +96,31 @@
 }
 
 .order-item img {
-  width: 90px;
-  height: 90px;
+  width: 85px;
+  height: 85px;
   object-fit: cover;
   border-radius: 6px;
 }
 
 .item-info h4 {
-  margin: 0;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .item-info p {
-  margin: 4px 0;
   color: #555;
+  font-size: 13px;
 }
 
-/* FOOTER */
+/* 📄 FOOTER */
 .order-footer {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 13px;
   flex-wrap: wrap;
-  gap: 10px;
 }
 
-/* BUTTON */
+/* 🔘 BUTTON */
 .continue-btn {
   width: 100%;
   margin-top: 15px;
@@ -90,15 +130,30 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 600;
 }
 
 .continue-btn:hover {
   background: #1f5dc2;
 }
 
-/* LOADING */
-.loading {
-  text-align: center;
-  margin-top: 50px;
+/* 🔥 LOADER */
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 9999;
+}
+
+.loader-text {
+  font-size: 14px;
+  color: #444;
 }
