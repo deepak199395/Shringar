@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/layout/Header/Header";
 import Footer from "../../components/layout/Footer/Footer";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PhoneAuthModal from "../../CustomComponents/PhoneAuthModal";
+import { clearCart } from "../../ReduxToolkit/cartSlice";
 import axios from "axios";
 import "./ArrivelCheckout.css";
 
 const ArriveCheckout = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // ✅ REDUX DATA
   const { user, isSignIn } = useSelector((state) => state.auth);
   const cartItems = useSelector((state) => state.cart.items);
 
-  // 🔐 OTP MODAL STATE
   const [showOtpModal, setShowOtpModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   /* 🔐 LOGIN CHECK */
   useEffect(() => {
@@ -32,55 +34,66 @@ const ArriveCheckout = () => {
 
   // 👤 USER DETAILS
   const userDetails = {
-    name: user?.FullName || "N/A",
-    email: user?.Email || "N/A",
-    phone: user?.phoneNumber || "N/A",
-    address: user?.Address || "N/A",
+    name: user?.FullName || "",
+    email: user?.Email || "",
+    phone: user?.phoneNumber || "",
+    address: user?.Address || "",
     city: user?.City || "",
     state: user?.State || "",
     pincode: user?.Pincode || "",
+    country: user?.Country || "",
   };
 
-  console.log("USER 👉", user);
-  console.log("CART 👉", cartItems);
-
-  // 🛒 STEP 1: CLICK PLACE ORDER
+  // 🛒 STEP 1
   const handlePlaceOrder = () => {
     if (!cartItems.length) {
       alert("Cart is empty");
       return;
     }
 
+    if (!userDetails.address) {
+      alert("Please update your address");
+      return;
+    }
+
     setShowOtpModal(true);
   };
 
-  // 🔐 STEP 2: OTP VERIFIED → CREATE ORDER
+  // 🔐 STEP 2
   const handleVerifySuccess = async (token) => {
     try {
+      setLoading(true);
       setShowOtpModal(false);
 
-      // 🔥 MAP CART ITEMS
+      // ✅ MAP ITEMS (IMPORTANT)
       const items = cartItems.map((item) => ({
-        productId: item._id,
-        productName: item.name,
-        description: item.name,
-        price: item.price,
-        qty: item.quantity,
+        _id: item._id,
+        name: item.name,
         image: item.image,
+        price: item.price,
+        quantity: item.quantity,
       }));
 
-      // 🔥 FINAL PAYLOAD
       const payload = {
-        userId: user?.id,
-        email: user?.Email,
-        phone: user?.phoneNumber,
+        userId: user.id,
+        email: user.Email,
+        phone: user.phoneNumber,
+
+        address: {
+          fullName: userDetails.name,
+          phoneNumber: userDetails.phone,
+          addressLine: userDetails.address,
+          city: userDetails.city,
+          state: userDetails.state,
+          pincode: userDetails.pincode,
+          country: userDetails.country,
+        },
+
         items,
-        totalAmount,
       };
 
-      console.log("ORDER PAYLOAD 👉", payload);
+      console.log("FINAL PAYLOAD 👉", payload);
 
-      // 🔥 API CALL
       const res = await axios.post(
         "https://api.shrigaar.com/api/v1/shringar/arrival-order/create/api76",
         payload
@@ -89,16 +102,19 @@ const ArriveCheckout = () => {
       if (res.data.success) {
         alert("🎉 Order Placed Successfully!");
 
-        // 👉 redirect to orders page
+        // ✅ OPTIONAL: clear cart (if you have action)
+        dispatch(clearCart());
+
         navigate("/orders");
       }
     } catch (error) {
       console.error("ORDER ERROR ❌", error);
-      alert("Order failed. Try again.");
+      alert(error?.response?.data?.message || "Order failed");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // 🚫 EMPTY CART
   if (!cartItems.length) {
     return <p className="status-text">No items to checkout</p>;
   }
@@ -111,7 +127,7 @@ const ArriveCheckout = () => {
         <div className="checkout-page">
           <h2>Arrival Checkout</h2>
 
-          {/* 👤 USER DETAILS */}
+          {/* 👤 USER */}
           <div className="user-box">
             <h3>User Details</h3>
             <p><b>Name:</b> {userDetails.name}</p>
@@ -123,45 +139,39 @@ const ArriveCheckout = () => {
             </p>
           </div>
 
-          {/* 🧾 CART ITEMS */}
+          {/* 🧾 CART */}
           {cartItems.map((item) => (
             <div key={item._id} className="checkout-item">
-
-              {/* 🖼️ IMAGE */}
               <img
                 src={item.image}
                 alt={item.name}
                 className="checkout-img"
-                onError={(e) => {
-                  e.target.src = "https://via.placeholder.com/70";
-                }}
+                onError={(e) =>
+                  (e.target.src = "https://via.placeholder.com/70")
+                }
               />
 
-              {/* 📦 DETAILS */}
               <div className="checkout-info">
                 <span>{item.name}</span>
                 <span>Qty: {item.quantity}</span>
                 <span>₹{item.price * item.quantity}</span>
               </div>
-
             </div>
           ))}
 
-          {/* 💰 TOTAL */}
           <h3>Total: ₹{totalAmount}</h3>
 
-          {/* 🛒 PLACE ORDER */}
           <button
             className="checkout-btn"
             onClick={handlePlaceOrder}
-            disabled={showOtpModal}
+            disabled={loading}
           >
-            Place Order
+            {loading ? "Processing..." : "Place Order"}
           </button>
         </div>
       </div>
 
-      {/* 🔐 OTP MODAL */}
+      {/* 🔐 OTP */}
       <PhoneAuthModal
         show={showOtpModal}
         onClose={() => setShowOtpModal(false)}

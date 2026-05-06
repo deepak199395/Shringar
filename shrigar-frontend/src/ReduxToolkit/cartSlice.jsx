@@ -33,7 +33,6 @@ const cartSlice = createSlice({
         if (item.quantity > 1) {
           item.quantity -= 1;
         } else {
-          // remove if 1
           state.items = state.items.filter(i => i._id !== action.payload);
         }
       }
@@ -43,6 +42,11 @@ const cartSlice = createSlice({
     removeFromCart: (state, action) => {
       state.items = state.items.filter(i => i._id !== action.payload);
     },
+
+    // 🔥 CLEAR CART (ADD THIS)
+    clearCart: (state) => {
+      state.items = [];
+    },
   },
 });
 
@@ -50,7 +54,8 @@ export const {
   addToCart,
   increaseQty,
   decreaseQty,
-  removeFromCart
+  removeFromCart,
+  clearCart   // ✅ export it
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
