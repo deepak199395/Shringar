@@ -95,7 +95,7 @@ const ArriveCheckout = () => {
       console.log("FINAL PAYLOAD 👉", payload);
 
       const res = await axios.post(
-        "https://api.shrigaar.com/api/v1/shringar/arrival-order/create/api76",
+        "https://api.shrigaar.com/api/v1/shringar/createNewArrival-order/get/api76",
         payload
       );
 
