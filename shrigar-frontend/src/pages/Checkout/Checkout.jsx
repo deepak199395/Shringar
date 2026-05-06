@@ -15,7 +15,6 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { user, isSignIn } = useSelector((state) => state.auth);
   const { success } = useSelector((state) => state.order);
-
   const [showOtpModal, setShowOtpModal] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [showModal, setShowModal] = useState(false);
@@ -64,7 +63,8 @@ const Checkout = () => {
     state: user?.State || "",
     pincode: user?.Pincode || "",
   };
-
+   console.log("i want found user ",user);
+   
   /* 💰 TOTAL */
   const totalAmount = cartItems.reduce(
     (sum, item) =>
