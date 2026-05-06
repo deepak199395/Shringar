@@ -14,7 +14,6 @@ const Orders = () => {
   const { orders, loading } = useSelector((state) => state.order);
   const { user, isSignIn } = useSelector((state) => state.auth);
 
-  // 🔥 FIX: prevent flash
   const [initialLoading, setInitialLoading] = useState(true);
 
   /* 🔐 Redirect if not logged in */
@@ -31,31 +30,30 @@ const Orders = () => {
     }
   }, [dispatch, user]);
 
-  /* 🔥 Remove flash after loading completes */
+  /* 🔥 Prevent UI flash */
   useEffect(() => {
     if (!loading) {
       const timer = setTimeout(() => {
         setInitialLoading(false);
-      }, 300); // smooth transition
+      }, 300);
       return () => clearTimeout(timer);
     }
   }, [loading]);
 
-  /* 👤 Filter user orders */
-  const userOrders = orders.filter(
-    (order) => order.userId === user?.id || order.userId === user?._id
+  // 🔥 SPLIT ORDERS
+  const normalOrders = orders.filter((order) =>
+    order.items?.some((item) => item.productName)
   );
 
-  // 🔥 BLOCK UI UNTIL READY (NO FLASH)
+  const arrivalOrders = orders.filter((order) =>
+    order.items?.some((item) => item.name)
+  );
+
+  // 🔥 LOADER
   if (loading || initialLoading) {
     return (
       <div className="loader-overlay">
-        <TailSpin
-          height="60"
-          width="60"
-          color="#c9a24d"
-          ariaLabel="loading"
-        />
+        <TailSpin height="60" width="60" color="#c9a24d" />
         <p className="loader-text">Loading your orders...</p>
       </div>
     );
@@ -68,66 +66,104 @@ const Orders = () => {
       <div className="orders-page">
         <h2 className="page-title">My Orders</h2>
 
-        {/* 🟡 EMPTY STATE */}
-        {userOrders.length === 0 ? (
+        {/* 🟡 EMPTY */}
+        {orders.length === 0 && (
           <div className="empty-orders">
             <div className="empty-icon">📦</div>
             <h3>No Orders Yet</h3>
-            <p>You haven’t placed any orders yet.</p>
-
-            <button
-              className="shop-btn"
-              onClick={() => navigate("/")}
-            >
-              Start Shopping
-            </button>
+            <button onClick={() => navigate("/")}>Start Shopping</button>
           </div>
-        ) : (
-          userOrders.map((order) => (
-            <div key={order._id} className="order-card">
+        )}
 
-              {/* TOP */}
-              <div className="order-top">
-                <div>
-                  <p className="delivery-text">
+        {/* 🟢 NORMAL ORDERS */}
+        {normalOrders.length > 0 && (
+          <>
+            <h3 className="section-title">Your Orders</h3>
+
+            {normalOrders.map((order) => (
+              <div key={order._id} className="order-card">
+
+                <div className="order-top">
+                  <p>
                     Delivery by{" "}
                     <b>{new Date(order.createdAt).toDateString()}</b>
                   </p>
-                  <p className="track-link">Track & manage order</p>
                 </div>
 
-                <div className="success-icon">✔</div>
-              </div>
+                {order.items.map((item, index) => (
+                  <div key={index} className="order-item">
+                    <img src={item.image} alt={item.productName} />
 
-              {/* ITEMS */}
-              {order.items.map((item, index) => (
-                <div key={index} className="order-item">
-                  <img src={item.image} alt={item.productName} />
-
-                  <div className="item-info">
-                    <h4>{item.productName}</h4>
-                    <p>Qty: {item.qty}</p>
-                    <p>₹{item.priceAfterDiscount}</p>
+                    <div className="item-info">
+                      <h4>{item.productName}</h4>
+                      <p>Qty: {item.qty}</p>
+                      <p>₹{item.priceAfterDiscount || item.price}</p>
+                    </div>
                   </div>
+                ))}
+
+                <div className="order-footer">
+                  <p><b>Status:</b> {order.orderStatus}</p>
+                  <p><b>Total:</b> ₹{order.totalAmount}</p>
                 </div>
-              ))}
-
-              {/* FOOTER */}
-              <div className="order-footer">
-                <p><b>Order ID:</b> {order._id}</p>
-                <p><b>Status:</b> {order.orderStatus}</p>
-                <p><b>Total:</b> ₹{order.totalAmount}</p>
               </div>
+            ))}
+          </>
+        )}
 
-              <button
-                className="continue-btn"
-                onClick={() => navigate("/")}
-              >
-                Continue Shopping
-              </button>
+        {/* 🟣 NEW ARRIVAL ORDERS */}
+        {arrivalOrders.length > 0 && (
+          <>
+            <h3 className="section-title">New Arrival Orders</h3>
 
-            </div>
-          ))
+            {arrivalOrders.map((order) => (
+              <div key={order._id} className="order-card">
+
+                <div className="order-top">
+                  <p>
+                    Delivery by{" "}
+                    <b>{new Date(order.createdAt).toDateString()}</b>
+                  </p>
+                </div>
+
+                {order.items.map((item, index) => (
+                  <div key={index} className="order-item">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      onError={(e) =>
+                        (e.target.src = "https://via.placeholder.com/80")
+                      }
+                    />
+
+                    <div className="item-info">
+                      <h4>{item.name}</h4>
+                      <p>Qty: {item.quantity}</p>
+                      <p>₹{item.price}</p>
+                    </div>
+                  </div>
+                ))}
+
+                <div className="order-footer">
+                  <p><b>Status:</b> {order.orderStatus}</p>
+
+                  <p>
+                    <b>Total:</b> ₹{
+                      order.totalAmount > 0
+                        ? order.totalAmount
+                        : order.items.reduce(
+                            (sum, item) =>
+                              sum +
+                              (item.price || 0) *
+                                (item.quantity || item.qty || 1),
+                            0
+                          )
+                    }
+                  </p>
+                </div>
+              </div>
+            ))}
+          </>
         )}
       </div>
 
