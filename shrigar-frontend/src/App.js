@@ -28,6 +28,7 @@ import WhatsAppButton from "./pages/WhatsappBussines/WhatsAppButton";
 import CartDrawer from "./components/cart/CartDrawer";
 import { exitScreen } from "./utils/analytics";
 import ArriveCheckout from "./pages/Checkout/ArriveCheckout";
+import ArrivalOrders from "./pages/Orders/ArrivalOrders";
 
 const App = () => {
 
@@ -94,6 +95,7 @@ const App = () => {
         <Route path="/ContactUs" element={<ContactUs />} />
         <Route path="/Careers" element={<Careers />} />
         <Route path="/ArriveCheckout" element={<ArriveCheckout />} />
+        <Route path="/arrival-orders" element={<ArrivalOrders/>} />
 
       </Routes>
 

@@ -105,7 +105,7 @@ const ArriveCheckout = () => {
         // ✅ OPTIONAL: clear cart (if you have action)
         dispatch(clearCart());
 
-        navigate("/orders");
+        navigate("/arrival-orders");
       }
     } catch (error) {
       console.error("ORDER ERROR ❌", error);
