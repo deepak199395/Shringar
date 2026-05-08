@@ -14,7 +14,13 @@
   font-weight: 500;
   color: #000;
 }
-
+.budget-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
 /* ===============================
    GRID
 ================================ */
