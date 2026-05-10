@@ -1,5 +1,6 @@
 // Base URL
-export const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/api/v1`;
+export const BASE_URL =
+`${process.env.REACT_APP_API_BASE_URL || "https://api.shrigaar.com"}/api/v1`;
 
 // Collections endpoints
 export const COLLECTION_ENDPOINTS = {
@@ -12,7 +13,6 @@ export const PRODUCT_ENDPOINTS = {
 };
 
 // Categories endpoints
-
-export const GET_CATEGORIES={
-    LIST :"/shrigar/getCategories/list/api54",
+export const GET_CATEGORIES = {
+  LIST: "/shrigar/getCategories/list/api54",
 };
