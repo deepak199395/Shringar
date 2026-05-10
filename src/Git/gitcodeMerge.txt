@@ -1,0 +1,11 @@
+git checkout main
+git pull origin main
+git merge devUatDeepak
+git push origin main
+
+
+
+// branches
+devUatDeepak
+devUatMp
+* main
