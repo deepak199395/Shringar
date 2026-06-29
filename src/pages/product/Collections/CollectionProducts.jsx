@@ -59,7 +59,7 @@ const CollectionProducts = () => {
                 <img src={item.image} alt={item.productName} />
 
                 {!item.inStock && (
-                  <span className="stock-badge">Out of Stock</span>
+                  <span className="stock-badge">Out of stock</span>
                 )}
 
                 {item.discountPercentage > 0 && (
@@ -121,7 +121,7 @@ const CollectionProducts = () => {
                     setShowPopup(true);
                   }}
                 >
-                  Add to Cart
+                  Add to cart
                 </button>
 
               </div>

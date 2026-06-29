@@ -122,7 +122,7 @@ const NewArrivalsPage = () => {
                       setIsCartOpen(true);
                     }}
                   >
-                    Add
+                    Add to cart
                   </button>
                 </div>
               </div>

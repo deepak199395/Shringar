@@ -71,8 +71,8 @@ const ProductDetails = () => {
 
           <p className="desc">{product.description}</p>
 
-          <button className="addBtn">ADD TO BAG</button>
-          <button className="wishBtn">SAVE TO WISHLIST</button>
+          <button className="addBtn">Add to bag</button>
+          <button className="wishBtn">Save to wishlist</button>
 
         </div>
       </div>

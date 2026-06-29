@@ -81,8 +81,8 @@ const NewArrivalsProductDetails = () => {
 
           <p className="desc">{product.description}</p>
 
-          <button className="cart">ADD TO CART</button>
-          <button className="buy">BUY NOW</button>
+          <button className="cart">Add to cart</button>
+          <button className="buy">Buy now</button>
         </div>
       </div>
       <Footer/>

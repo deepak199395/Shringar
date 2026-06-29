@@ -49,7 +49,7 @@ const Shop = () => {
                   <span className="oldPrice">₹{item.price}</span>
                 </p>
 
-                <button>Add to Cart</button>
+                <button>Add to cart</button>
               </div>
             ))
           )}

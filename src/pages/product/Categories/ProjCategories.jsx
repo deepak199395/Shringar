@@ -30,11 +30,11 @@ const ProjCategories = () => {
     }
   };
 
-  if (loading) return <p>Loading Categories...</p>;
+  if (loading) return <p>Loading categories...</p>;
 
   return (
     <section className="category-section">
-      <h2 className="category-heading">SHOP BY CATEGORIES</h2>
+      <h2 className="category-heading">Upcoming products</h2>
 
       <div className="category-grid">
         {categories.map((item) => (
